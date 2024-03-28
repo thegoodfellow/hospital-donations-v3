@@ -17,13 +17,16 @@ const FAQ = () => {
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color={colors.greenAccent[500]} variant="h5">
-            An Important Question
+            Why i sould donate through Blockchain?
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            If you already hold ethreum it avoids third parties fees and tax expensese 
+            allowing you to make the biggest impact on the cause you want to support.
+          </Typography>
+          <Typography>
+            Anybody will be able to check how much has been givne  and when allowing for the greatest transparency.
           </Typography>
         </AccordionDetails>
       </Accordion>

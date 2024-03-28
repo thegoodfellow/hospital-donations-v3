@@ -4,7 +4,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-const Form = () => {
+const DonationForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
@@ -13,7 +13,7 @@ const Form = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header title="GIVE ETH" subtitle="MAKE THE GREATEST DIFFERENCE" />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -115,10 +115,25 @@ const Form = () => {
                 helperText={touched.address2 && errors.address2}
                 sx={{ gridColumn: "span 4" }}
               />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Amount (ETH)"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.amount}
+                name="amount"
+                //to-do once the control for the amount is implemented replace with it below
+                //error={!!touched.contact && !!errors.contact}
+                //helperText={touched.contact && errors.contact}
+                sx={{ gridColumn: "span 4" }}
+              />
             </Box>
+            {/*TO-DO implement the donation mechanism for the button*/}
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                DONATE
               </Button>
             </Box>
           </form>
@@ -141,6 +156,7 @@ const checkoutSchema = yup.object().shape({
     .required("required"),
   address1: yup.string().required("required"),
   address2: yup.string().required("required"),
+  //to-do check if the value typed is a valid number
 });
 const initialValues = {
   firstName: "",
@@ -149,6 +165,7 @@ const initialValues = {
   contact: "",
   address1: "",
   address2: "",
+  amount: "", //to-do write 0 OR empty string???
 };
 
-export default Form;
+export default DonationForm;
