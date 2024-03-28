@@ -14,6 +14,7 @@ import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import Calendar from "./scenes/calendar/calendar";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -37,6 +38,7 @@ function App() {
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
             </Routes>
           </main>
