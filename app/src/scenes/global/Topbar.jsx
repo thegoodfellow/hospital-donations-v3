@@ -7,6 +7,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
 import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
@@ -44,7 +45,7 @@ const Topbar = () => {
           <SettingsOutlinedIcon />
         </IconButton>
         <IconButton>
-          <PersonOutlinedIcon />
+          <WalletOutlinedIcon />
         </IconButton>
       </Box>
     </Box>

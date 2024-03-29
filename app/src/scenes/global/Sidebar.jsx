@@ -35,7 +35,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -121,7 +121,7 @@ const Sidebar = () => {
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   {/* show the wallet address if one is connected otherwise no address*/}
-                0xf39Fd6e51aa...7279cffFb92266
+                    {props.account}
                 </Typography>
               </Box>
             </Box>

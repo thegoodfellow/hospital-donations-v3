@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -16,16 +16,61 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 
+import { ethers } from 'ethers';
+
+
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+  const [account, setAccount] = useState("Not Connected");
+  const [signer, setSigner] = useState();
+
+  useEffect(() => {
+    async function getAccounts() {
+
+      let signer = null;
+      let provider;
+
+      //slightly modified implementation in v6 
+      //to-do it might needs some modifications to not crash in case metamask is not installed
+      if (window.ethereum == null) {
+
+          // If MetaMask is not installed, we use the default provider,
+          // which is backed by a variety of third-party services (such
+          // as INFURA). They do not have private keys installed,
+          // so they only have read-only access
+          console.log("MetaMask not installed; using read-only defaults")
+          provider = ethers.getDefaultProvider()
+
+      } else {
+
+          // Connect to the MetaMask EIP-1193 object. This is a standard
+          // protocol that allows Ethers access to make all read-only
+          // requests through MetaMask.
+          provider = new ethers.BrowserProvider(window.ethereum)
+
+          // It also provides an opportunity to request access to write
+          // operations, which will be performed by the private key
+          // that MetaMask manages for the user.
+          signer = await provider.getSigner();
+
+          const accounts = await provider.send('eth_requestAccounts', []);
+          
+          setAccount(accounts[0]);
+          setSigner(signer);
+      }
+    }
+
+    getAccounts();
+  }, [account]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
+          <Sidebar isSidebar={isSidebar} account={account}/>
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
