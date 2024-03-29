@@ -79,12 +79,19 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
+                <Box>
+                  <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
+                    A.O.U. Città della Salute 
+                  </Typography>
+                  <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
+                    e della Scienza di Torino
+                  </Typography>
+                </Box>
+                <Box>
+                  <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                    <MenuOutlinedIcon />
+                  </IconButton>
+                </Box>
               </Box>
             )}
           </MenuItem>
@@ -93,10 +100,12 @@ const Sidebar = () => {
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
-                  alt="profile-user"
+                  alt="badge of honor"
                   width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
+                  height="100px" 
+                  //to-do show the badge of honor held by the user 
+                  //to-do otherwise the no_badge pic
+                  src={`../../assets/no_badge_of_honour.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -107,10 +116,12 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {/* to-do show the wallet nickname, if there is not than show nothing */}
+                  Wallet NickName
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  {/* show the wallet address if one is connected otherwise no address*/}
+                0xf39Fd6e51aad88F...7279cffFb92266
                 </Typography>
               </Box>
             </Box>
@@ -118,7 +129,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
+              title="Home"
               to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
