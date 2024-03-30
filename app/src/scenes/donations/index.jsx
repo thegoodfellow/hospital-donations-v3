@@ -16,6 +16,8 @@ const Donations = () => {
     { field: "id", headerName: "Transaction Hash" },
     {
       //to-do replace with the wallet nickname or whatever si called
+      //to-do eventually set it to be a ENS 
+      //to-do investigate further the difference between ENS and the rest...
       field: "name",
       headerName: "Wallet NIckname",
       flex: 1,

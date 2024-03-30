@@ -1,6 +1,6 @@
+require('dotenv').config();
 const { ethers } = require('ethers');
 const hre = require("hardhat");
-require('dotenv').config();
 const deploy = require('../scripts/deploy'); //returns a istance of the contract deployed
 const donate = require('../scripts/donate') //returns the transaction
 const claimNFT = require('../scripts/claimNFT') //returns the transaction

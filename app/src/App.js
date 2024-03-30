@@ -24,12 +24,15 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const [account, setAccount] = useState("Not Connected");
+  //to-do consider eventually pooling all the infos in one variable, might be better?
+  const [nickname, setNickname] = useState(null); //to-do check if null can cause troubles
   const [signer, setSigner] = useState();
 
   useEffect(() => {
     async function getAccounts() {
 
       let signer = null;
+      let nickname = null;
       let provider;
 
       //slightly modified implementation in v6 
@@ -56,9 +59,17 @@ function App() {
           signer = await provider.getSigner();
 
           const accounts = await provider.send('eth_requestAccounts', []);
+
+          //nickname = await provider.lookupAddress(accounts[0]);
+          //to-do eventually have a look on how to implement the ENS name thing
+          //to-do in the end retrieve it over here and show
+          //to-do for the time being juect levae null
+          //to-do check if null can cause troubles
+        
           
           setAccount(accounts[0]);
           setSigner(signer);
+          setNickname(nickname);
       }
     }
 
@@ -70,7 +81,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} account={account}/>
+          <Sidebar isSidebar={isSidebar} account={account} nickname={nickname} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
