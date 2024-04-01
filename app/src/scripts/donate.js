@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const hre = require("hardhat");
+//const hre = require("hardhat");
 const getContract = require("./getContract");
 //const connectSigner = require('./connectSigner');
 

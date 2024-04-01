@@ -6,7 +6,7 @@ import * as yup from "yup"; //Yup is a schema builder for runtime value parsing 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-import donate from "../../../../scripts/donate";
+import donate from "../../scripts/donate";
 
 const DonationForm = (signer) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");

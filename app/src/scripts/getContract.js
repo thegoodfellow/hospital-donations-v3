@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '../.env' })
 const ethers = require('ethers');
-const hre = require("hardhat");
+//const hre = require("hardhat");
 
 const fs = require('fs');
 const addressPath = "../contractAddress.json";
