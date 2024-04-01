@@ -1,10 +1,10 @@
-require("dotenv").config()
+require('dotenv').config({ path: '../.env' })
 //console.log(process.env)
 const ethers = require('ethers');
 const hre = require("hardhat");
 
-//const fs = require('fs');
-//const filePath = "../contractAddress.json";
+const fs = require('fs');
+const filePath = "../contractAddress.json";
 
 
 //it does deploy the contract on the local newtwork but for some reason won't terminate execution...
@@ -12,13 +12,17 @@ const hre = require("hardhat");
 async function deploy() {
   console.log("START - scripts/deploy.js");
 
-  //console.log("contractAddress.json reading...")
-  //console.log("filePath: " + filePath);
+  //to-do each time the function is called it overwrites the contractAdress file with the new address 
+  //to-do of the deployed contract
+  //to-do it coul make sense to check if it already exists an address..
+
+  console.log("contractAddress.json reading...")
+  console.log("filePath: " + filePath);
   //retrieve data from json file
-  //const rawData = fs.readFileSync(filePath); 
-  //console.log("rawData: " + rawData);
- // const jsonData = JSON.parse(rawData); 
-  //console.log("jsonData: " + jsonData);
+  const rawData = fs.readFileSync(filePath); 
+  console.log("rawData: " + rawData);
+  const jsonData = JSON.parse(rawData); 
+  console.log("jsonData: " + jsonData);
 
   console.log("process.env.NETWORK_URL: " + process.env.NETWORK_URL);
   const provider = new ethers.JsonRpcProvider(process.env.NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
@@ -38,16 +42,17 @@ async function deploy() {
 
 
   //add new address
-  //console.log("jsonData.addressesArray: " + jsonData.address);
-  //jsonData.address = address;
+  console.log("jsonData.addressesArray: " + jsonData.address);
+  jsonData.address = address;
 
   //write back to json file
-  //fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
+  fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
 
   console.log("HospitalDonationV6 contract deployed at address:", address);
   
   console.log("END - scripts/deploy.js");
-  return HospitalDonationV6;
+  return HospitalDonationV6;//to-do for testing it does make sense returning the istance of the contract
+                            //at build it will be always retrieved from blockchain
 
 }
 
