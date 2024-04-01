@@ -6,7 +6,7 @@ import * as yup from "yup"; //Yup is a schema builder for runtime value parsing 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-import donate from "../../../../scripts/donate";
+//import donate from "../../../../scripts/donate";
 
 const DonationForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -15,7 +15,13 @@ const DonationForm = () => {
     console.log(values);
     //to-do eventually save the data in a db
     //to-do DB has to be implemented
-    donate();
+    const _signer = null;
+    const _name = values.firstName;
+    const _surname = values.lastName;
+    const _amount = values.amount;
+    console.log("arguments to feed in the donate func:");
+    console.log("_signer:" + _signer + ", _name: " + _name + ", _surname: " + _surname + ", _amount: " + _amount);
+    //donate(_signer, _name, _surname, _amount);
   };
 
   return (
