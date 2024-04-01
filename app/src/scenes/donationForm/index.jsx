@@ -6,22 +6,30 @@ import * as yup from "yup"; //Yup is a schema builder for runtime value parsing 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-//import donate from "../../../../scripts/donate";
+import donate from "../../../../scripts/donate";
 
-const DonationForm = () => {
+const DonationForm = (signer) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
     console.log(values);
     //to-do eventually save the data in a db
     //to-do DB has to be implemented
-    const _signer = null;
-    const _name = values.firstName;
-    const _surname = values.lastName;
-    const _amount = values.amount;
-    console.log("arguments to feed in the donate func:");
-    console.log("_signer:" + _signer + ", _name: " + _name + ", _surname: " + _surname + ", _amount: " + _amount);
-    //donate(_signer, _name, _surname, _amount);
+    if(Object.keys(signer).length === 0){//to-do make sure this is a good way of checking for empty objects
+      //to-do implement - print something on browser
+    }else{
+      console.log("JSON.stringify(signer): " + JSON.stringify(signer));
+      const _signer = signer;//to-do if no wallet is connected the signer is set to empty object (useState())
+                            //to-do should handle the behaviour in case of no wallet connected
+                            //when a wallet is connected signer is an object with 2 properties provider & address
+      const _name = values.firstName;
+      const _surname = values.lastName;
+      const _amount = values.amount;
+      console.log("arguments to feed in the donate func:");
+      console.log("_signer:" + _signer + ", _name: " + _name + ", _surname: " + _surname + ", _amount: " + _amount);
+      //donate(_signer, _name, _surname, _amount);
+
+    }
   };
 
   return (

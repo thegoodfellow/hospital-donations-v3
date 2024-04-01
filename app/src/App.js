@@ -89,7 +89,7 @@ function App() {
               <Route path="/donations" element={<Donations />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
-              <Route path="/donationForm" element={<DonationForm />} />
+              <Route path="/donationForm" element={<DonationForm signer={signer} />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
