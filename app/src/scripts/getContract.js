@@ -3,8 +3,8 @@ const ethers = require('ethers');
 //const hre = require("hardhat");
 
 const fs = require('fs');
-const addressPath = "../contractAddress.json";
-const abiPath = "../artifacts/contracts/HospitalDonationV6.sol/HealthCareToken.json";
+const addressPath = "../contractInfo/contractAddress.json";
+const abiPath = "../contractInfo/abi.json";
 
 async function getContract() {
   console.log("START - scripts/getContract.js");

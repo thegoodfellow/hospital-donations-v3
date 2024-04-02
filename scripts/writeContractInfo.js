@@ -10,6 +10,10 @@ const abiFinalPath = "../app/src/contractInfo/abi.json";
 //it writes the abi and the address of the contract into a folder isnide the app folder 
 //so once the contract is deployed those infos can be used from the app
 
+//to-do consider writing somewhere the contract name as well, it can gotten from the artifact as it reused many time
+//to-do consider writing all info into a single file
+//to-do consider modifying hardhat config to save the artifact inside the app/src folder
+
 async function writeContractInfo(address) {
     console.log("START - scripts/writeContractInfo.js");
 
