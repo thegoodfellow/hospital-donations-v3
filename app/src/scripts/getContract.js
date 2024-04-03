@@ -51,5 +51,5 @@ async function getContract() {
 
 }
 
-getContract();
-//module.exports = getContract;
+//getContract();
+module.exports = getContract;

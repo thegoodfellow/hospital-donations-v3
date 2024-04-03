@@ -30,6 +30,7 @@ function App() {
 
   useEffect(() => {
     async function getAccounts() {
+      console.log("START - app/getAccounts");
 
       let signer = null;
       let nickname = null;
@@ -57,7 +58,8 @@ function App() {
           // operations, which will be performed by the private key
           // that MetaMask manages for the user.
           signer = await provider.getSigner();
-
+          console.log("JSON.stringify(signer): " + JSON.stringify(signer));
+          
           const accounts = await provider.send('eth_requestAccounts', []);
 
           //nickname = await provider.lookupAddress(accounts[0]);
@@ -71,6 +73,7 @@ function App() {
           setSigner(signer);
           setNickname(nickname);
       }
+      console.log("END - app/getAccounts");
     }
 
     getAccounts();

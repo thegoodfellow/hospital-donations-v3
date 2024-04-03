@@ -12,6 +12,8 @@ const DonationForm = (signer) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
+    console.log("START - donationForm/handleFormSubmit");
+    //to-do consider displaying errors, generic as well (fall-down to donate.js) somewhere on the front-end
     console.log(values);
     //to-do eventually save the data in a db
     //to-do DB has to be implemented
@@ -19,17 +21,23 @@ const DonationForm = (signer) => {
       //to-do implement - print something on browser
     }else{
       console.log("JSON.stringify(signer): " + JSON.stringify(signer));
-      const _signer = signer;//to-do if no wallet is connected the signer is set to empty object (useState())
+      console.log("signer.signer.address: " + signer.signer.address);
+      //to-do consider passing values and than values.signer...signer.signer is really confusing
+      //signer = { "signer": {"provider": {}, "address": "0x...." } }
+      const _signer = signer.signer;//to-do if no wallet is connected the signer is set to empty object (useState())
                             //to-do should handle the behaviour in case of no wallet connected
                             //when a wallet is connected signer is an object with 2 properties provider & address
+      console.log("signer: " + signer);
+      
       const _name = values.firstName;
       const _surname = values.lastName;
       const _amount = values.amount;
       console.log("arguments to feed in the donate func:");
       console.log("_signer:" + _signer + ", _name: " + _name + ", _surname: " + _surname + ", _amount: " + _amount);
-      //donate(_signer, _name, _surname, _amount);
+      const tx = donate(_signer, _name, _surname, _amount);
 
     }
+    console.log("END - donationForm/handleFormSubmit");
   };
 
   return (
