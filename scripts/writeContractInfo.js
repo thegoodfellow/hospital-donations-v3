@@ -3,7 +3,7 @@ const ethers = require('ethers');
 //const hre = require("hardhat");
 
 const fs = require('fs');
-const addressPath = "../app/src/contractInfo/contractAddress.json";
+const addressPath = "../app/src/contractAddress.json";
 //const abiPath = "../artifacts/contracts/HospitalDonationV6.sol/HealthCareToken.json";
 //const abiFinalPath = "../app/src/contractInfo/abi.json";
 

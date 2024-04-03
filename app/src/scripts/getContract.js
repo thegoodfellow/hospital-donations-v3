@@ -1,29 +1,44 @@
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: '../../../.env' })
 const ethers = require('ethers');
 //const hre = require("hardhat");
 
-const fs = require('fs');
-const addressPath = "../contractInfo/contractAddress.json";
-const abiPath = "../contractInfo/abi.json";
+//to-do take off all this stuff of fs reading and so on
+//to-do just assign what is inside the json files to consts and ...
+
+//const fs = require('fs');
+//const addressPath = "../contractInfo/contractAddress.json";
+//const abiPath = "../contractInfo/abi.json";
+const addressJson = require("../contractAddress.json");
+const artifactJson = require("../artifacts/contracts/HospitalDonationV6.sol/HealthCareToken.json");
+const { add } = require('lodash');
 
 async function getContract() {
   console.log("START - scripts/getContract.js");
 
+  //console.log("JSON.stringify(addressJson): " + JSON.stringify(addressJson));
+  //console.log("JSON.stringify(artifactJson): " + JSON.stringify(artifactJson));
+  //console.log("JSON.stringify(artifactJson.contractName): " + JSON.stringify(artifactJson.contractName));
+  const address = addressJson.address;
+  const abi = artifactJson.abi;
+  console.log("address: " + address);
+  //console.log("abi: " + abi);
+
     //retrieve data from json file
-    let rawData = fs.readFileSync(addressPath); 
-    let jsonData = JSON.parse(rawData); 
-    const address = jsonData.address;
-    console.log("address: " + address);
+    //let rawData = fs.readFileSync(addressPath); 
+    //let jsonData = JSON.parse(rawData); 
+    //const address = jsonData.address;
+    //console.log("address: " + address);
   
     //retrieve contract from node
-    console.log("abiPath: " + abiPath);
-    rawData = fs.readFileSync(abiPath);
+    //console.log("abiPath: " + abiPath);
+    //rawData = fs.readFileSync(abiPath);
     //console.log("abi - JSON.stringify(rawData): " + JSON.stringify(rawData)); 
-    jsonData = JSON.parse(rawData); 
-    const abi = jsonData.abi;
+    //jsonData = JSON.parse(rawData); 
+    //const abi = jsonData.abi;
     //console.log("JSON.stringify(abi): " + JSON.stringify(abi));
   
   console.log("process.env.NETWORK_URL: " + process.env.NETWORK_URL);
+  //to-do provider seems to be an empty object..check that out
   const provider = new ethers.JsonRpcProvider(process.env.NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
   console.log("JSON.stringify(provider): " + JSON.stringify(provider));
 
@@ -37,5 +52,5 @@ async function getContract() {
 
 }
 
-
-module.exports = getContract;
+getContract();
+//module.exports = getContract;
