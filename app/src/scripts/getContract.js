@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../../../.env' })
+//require('dotenv').config({ path: '../../../.env' }); //not necessary with react v5 and higher --> react-scripts does the job
 const ethers = require('ethers');
 //const hre = require("hardhat");
 
@@ -10,7 +10,6 @@ const ethers = require('ethers');
 //const abiPath = "../contractInfo/abi.json";
 const addressJson = require("../contractAddress.json");
 const artifactJson = require("../artifacts/contracts/HospitalDonationV6.sol/HealthCareToken.json");
-const { add } = require('lodash');
 
 async function getContract() {
   console.log("START - scripts/getContract.js");
@@ -37,9 +36,9 @@ async function getContract() {
     //const abi = jsonData.abi;
     //console.log("JSON.stringify(abi): " + JSON.stringify(abi));
   
-  console.log("process.env.NETWORK_URL: " + process.env.NETWORK_URL);
+  console.log("process.env.NETWORK_URL: " + process.env.REACT_APP_NETWORK_URL);//to-do check if react can read the variable
   //to-do provider seems to be an empty object..check that out
-  const provider = new ethers.JsonRpcProvider(process.env.NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
+  const provider = new ethers.JsonRpcProvider(process.env.REACT_APP_NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
   console.log("JSON.stringify(provider): " + JSON.stringify(provider));
 
   const HospitalDonationV6 = new ethers.Contract(address, abi, provider);

@@ -10,7 +10,7 @@ async function donate(signer, name, surname, amount) {
         console.log("START - scirpts/donate.js");
         const contract = await getContract();
         const parsedAmount = ethers.parseEther(amount);
-        console.log("BigInt.toString(parsedAmount): " + BigInt.toString(parsedAmount));
+        console.log("JSON.stringify(parsedAmount): " + JSON.stringify(parsedAmount));
         //const baseContract = await connectSigner(contract, signer);
         const baseContract = contract.connect(signer);
         const tx = await baseContract.donate(name, surname, {value: parsedAmount});
