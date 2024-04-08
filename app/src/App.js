@@ -21,6 +21,7 @@ import { ethers } from 'ethers';
 //installed axios with flag --legacy-peer-deps
 
 
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);

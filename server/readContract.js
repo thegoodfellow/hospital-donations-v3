@@ -20,7 +20,7 @@ const getContract = require("../app/src/scripts/getContract"); //to-do make sure
 
 /**
  * read the events DonationReceived from contract return a list of them
- * @returns {[{string, string, number, string, string, string, BigInt}]} is an array of Objects {blockHash, transactionHash, blockNumber, donorAddress, name, surname, amount} 
+ * @returns {[{string, string, number, string, string, string, string}]} is an array of Objects {blockHash, transactionHash, blockNumber, donorAddress, name, surname, amount} 
  */
 async function donations(){
     const contract = await getContract();
@@ -34,7 +34,10 @@ async function donations(){
         ret.donor = x.args[0];
         ret.name = x.args[1];
         ret.surname = x.args[2];
-        ret.amount = x.args[3];
+        const a = x.args[3] / (1000000000000000000n);
+        const b = x.args[3] % (1000000000000000000n);
+        ret.amount = a.toString() + "." + b.toString(); //necessarry otherwise express app --> TypeError: Do not know how to serialize a BigInt
+        console.log("type of ret.amount: " +  typeof ret.amount);
         return ret;
     });
     return redEvents;

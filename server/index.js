@@ -16,20 +16,24 @@ const clientUrl = "http://localhost:5001"; //to-do eventually save it somewhere 
 //to-do for the time being is running on 5001 it seems i forgot to close toher app running on 3000, and so on eventually change
 //to-do force client to run always on same port
 
-const { donations } = require("./readContract");
+const {donations}  = require("./readContract");
 
 app.use(cors({
     origin: clientUrl,
   }));
 
-app.get('/donations', (req, res) => {
-  console.log("server/index - donations");
-  async function waitFor(){
-    const myDonations = await donations();
-    res.send(myDonations);
-  }
-  waitFor();
-});
+  app.get('/donations', (req, res) => {
+    console.log("server/index - donations");
+    const newDonations = [];
+    async function waitFor(){
+
+      const newDonations = await donations();
+      console.log("JSON.stringify(newDonations): " + JSON.stringify(newDonations));
+      //newDonations.push("hola");
+      res.send(newDonations);
+    }
+    waitFor();
+  });
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
