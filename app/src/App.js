@@ -18,6 +18,7 @@ import Calendar from "./scenes/calendar/calendar";
 
 import { ethers } from 'ethers';
 
+//installed axios with flag --legacy-peer-deps
 
 
 function App() {

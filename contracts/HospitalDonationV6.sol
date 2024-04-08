@@ -44,6 +44,15 @@ pragma solidity ^0.8.0;
 //withdrawFunds func:
 //transfer ETH of the contract to the owner address
 
+//to-do eventually add oracle so can have the thresholds in euros...think about that..might be tricky..lot of implications/complications
+//to-do eventually add function to update/write the contract on how the money are spent (communication of impact) 
+//to-do eventually external service to convert the donations straight away in euro to mitigate/avoid volatility..
+
+//to-do NFT claiming pattern?? 
+//each time a donation goes through the amount is summed with the ones of previos donations if no NFT had been claimed for those
+//we give a NFT per donation
+//another way...
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";

@@ -1,5 +1,5 @@
-const deploy = require('../scripts/deploy'); //returns a istance of the contract deployed
-const writeContractInfo = require('../scripts/writeContractInfo');
+const deploy = require('./deploy'); //returns a istance of the contract deployed
+const writeContractInfo = require('./writeContractInfo');
 
 
 async function main(){

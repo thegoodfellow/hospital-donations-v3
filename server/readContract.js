@@ -11,7 +11,11 @@
 
 //to-do one function read more values..are they needed all together??how much time i waste retriving all of them??
 
+//to-do for the time-being i export the functions one by one..consider a different architecture..library??class??which one is more easy/efficient??
+
 const getContract = require("../app/src/scripts/getContract"); //to-do make sure this import is legal
+
+
 
 
 /**
@@ -166,5 +170,5 @@ async function claimedNFTsPerAddress(){
  return result;
 }
 
-claimedNFTsPerAddress();
-//module.exports = readDonations;
+
+module.exports = {donations, claimedNFTs, donationsPerAddress, claimedNFTsPerAddress, constants, numberClaimedNFTSperType};
