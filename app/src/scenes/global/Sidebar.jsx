@@ -16,6 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -148,6 +149,13 @@ const Sidebar = (props) => {
               title="Donation Form"
               to="/donationForm"
               icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Claim NFT"
+              to="/claimNFT"
+              icon={<CelebrationOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

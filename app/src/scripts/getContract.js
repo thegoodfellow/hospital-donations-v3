@@ -35,6 +35,16 @@ async function getContract() {
     //jsonData = JSON.parse(rawData); 
     //const abi = jsonData.abi;
     //console.log("JSON.stringify(abi): " + JSON.stringify(abi));
+/*
+    let provider;
+    if (window.ethereum == null) {
+      console.log("MetaMask not installed; using read-only defaults");
+      provider = ethers.getDefaultProvider();
+    } else {
+      console.log("window.ethereum is not null");
+      provider = new ethers.BrowserProvider(window.ethereum);
+    }
+*/
   
   console.log("process.env.NETWORK_URL: " + process.env.REACT_APP_NETWORK_URL);//to-do check if react can read the variable
   //to-do provider seems to be an empty object..check that out

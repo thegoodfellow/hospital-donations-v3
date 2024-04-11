@@ -8,6 +8,7 @@ import Invoices from "./scenes/invoices";
 import Contacts from "./scenes/contacts";
 import Bar from "./scenes/bar";
 import DonationForm from "./scenes/donationForm";
+import ClaimNFT from "./scenes/claimNFT";
 import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
@@ -19,6 +20,11 @@ import Calendar from "./scenes/calendar/calendar";
 import { ethers } from 'ethers';
 
 //installed axios with flag --legacy-peer-deps
+
+//to-do consider which behaviours/patterns would be better to implement client-side (react app) or server-side (express server)
+//to-do using the express server the client would have only the response and the chance to trigger unxcepcted behaviours that would potentially cause
+//to-do damages and so on will be less, would be kind of sand-box
+//to-do about this think about what to have inside the .env files
 
 
 
@@ -46,15 +52,15 @@ function App() {
           // which is backed by a variety of third-party services (such
           // as INFURA). They do not have private keys installed,
           // so they only have read-only access
-          console.log("MetaMask not installed; using read-only defaults")
-          provider = ethers.getDefaultProvider()
+          console.log("MetaMask not installed; using read-only defaults");
+          provider = ethers.getDefaultProvider();
 
       } else {
 
           // Connect to the MetaMask EIP-1193 object. This is a standard
           // protocol that allows Ethers access to make all read-only
           // requests through MetaMask.
-          provider = new ethers.BrowserProvider(window.ethereum)
+          provider = new ethers.BrowserProvider(window.ethereum);
 
           // It also provides an opportunity to request access to write
           // operations, which will be performed by the private key
@@ -95,6 +101,7 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/donationForm" element={<DonationForm signer={signer} />} />
+              <Route path="/claimNFT" element={<ClaimNFT signer={signer} />}/>
               <Route path="/bar" element={<Bar />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
