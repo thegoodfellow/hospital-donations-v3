@@ -42,7 +42,7 @@ function App() {
 
       let signer = null;
       let nickname = null;
-      let provider;
+      let _provider;
 
       //slightly modified implementation in v6 
       //to-do it might needs some modifications to not crash in case metamask is not installed
@@ -53,30 +53,30 @@ function App() {
           // as INFURA). They do not have private keys installed,
           // so they only have read-only access
           console.log("MetaMask not installed; using read-only defaults");
-          provider = ethers.getDefaultProvider();
+          _provider = ethers.getDefaultProvider();
+          
 
       } else {
 
           // Connect to the MetaMask EIP-1193 object. This is a standard
           // protocol that allows Ethers access to make all read-only
           // requests through MetaMask.
-          provider = new ethers.BrowserProvider(window.ethereum);
-
+          _provider = new ethers.BrowserProvider(window.ethereum);
+          
           // It also provides an opportunity to request access to write
           // operations, which will be performed by the private key
           // that MetaMask manages for the user.
-          signer = await provider.getSigner();
+          signer = await _provider.getSigner();
           console.log("JSON.stringify(signer): " + JSON.stringify(signer));
           
-          const accounts = await provider.send('eth_requestAccounts', []);
+          const accounts = await _provider.send('eth_requestAccounts', []);
 
           //nickname = await provider.lookupAddress(accounts[0]);
           //to-do eventually have a look on how to implement the ENS name thing
           //to-do in the end retrieve it over here and show
           //to-do for the time being juect levae null
           //to-do check if null can cause troubles
-        
-          
+      
           setAccount(accounts[0]);
           setSigner(signer);
           setNickname(nickname);

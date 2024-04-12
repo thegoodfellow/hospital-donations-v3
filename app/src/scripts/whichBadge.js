@@ -1,5 +1,5 @@
 const ethers = require('ethers');
-const getContract = require("./getContract");
+const getContractBySigner = require("./getContractBySigner");
 const { red } = require('@mui/material/colors');
 
 async function whichBadge(signer) {
@@ -7,19 +7,20 @@ async function whichBadge(signer) {
     try{
 
         console.log("START - scirpts/whichBadge.js");
+        console.log("signer: ");
         console.log(JSON.stringify(signer));
-        const contract = await getContract();
-        const addr = await contract.getAddress();
-        console.log(addr);
+        
+        const contract = await getContractBySigner(signer);
         const events = await contract.queryFilter("NFTClaimed", 0, "latest");
+        
         const addressesTokenIds = events.map((x) => {
             const ret = {};
             ret.donor = x.args[0];
             ret.tokenId = x.args[1];
             return ret;
         });
-        //console.log("events: ");
-        //console.log(events);
+        console.log("addressesTokenIds: ");
+        console.log(addressesTokenIds);
         const onlySignerAddrIds = addressesTokenIds.filter( (item) => item.donor === signer.address);
         console.log("onlySignerAddrIds: ");
         console.log(onlySignerAddrIds);
@@ -35,7 +36,7 @@ async function whichBadge(signer) {
         console.log(bigIntMax);
 
         let which = "NO TOKEN";
-        if(onlySignerAddrIds !== null){
+        if(onlySignerAddrIds.length > 0){
             if(bigIntMax < SILVER_START_ID){
                 which = "BRONZE";
             }

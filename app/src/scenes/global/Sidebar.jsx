@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar"; 
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -18,6 +18,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined';
 import whichBadge from "../../scripts/whichBadge";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -42,24 +43,39 @@ const Sidebar = (props) => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [imgSrc, setImgSrc] = useState("NO TOKEN");
 
-  const badgeSource = async () =>{
+  async function badgeSource(){
     console.log("badgeSource");
     console.log(props.signer);
+    const _signer = props.signer;
+    
     const whichNFT = await whichBadge(props.signer);
     console.log("props.account: " + props.account);
     console.log("whichNFT: " + whichNFT);
+    let ret = `../../../assets/no_badge_of_honour.png`;
     if(whichNFT === "NO TOKEN")
-      return `../../assets/no_badge_of_honour.png`;
+       ret = "../../../assets/no_badge_of_honour.png";
     if(whichNFT === "BRONZE")
-    return `../../assets/bronze_badge_of_honour.png`;
+    ret = `../../assets/bronze_badge_of_honour.png`;
     if(whichNFT === "SILVER")
-      return `../../assets/silver_badge_of_honour.png`;
+      ret = `../../assets/silver_badge_of_honour.png`;
     if(whichNFT === "GOLD")
-      return `../../assets/gold_badge_of_honour.png`;
+      ret = `../../assets/gold_badge_of_honour.png`;
     if(whichNFT === "PLATINUM")
-      return `../../assets/platinum_badge_of_honour.png`;
+      ret = `../../assets/platinum_badge_of_honour.png`;
+    console.log("ret: " + ret);
+    return ret;
   };
+
+  useEffect( () => {
+    async function getData(){
+      const src = await badgeSource();
+      setImgSrc(src);
+    }
+    getData();
+  }, [props.signer]);
+
 
   return (
     <Box
@@ -101,7 +117,7 @@ const Sidebar = (props) => {
               >
                 <Box>
                   <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
-                    A.O.U. Città della Salute
+                    A.O.U. Città della Salute 
                   </Typography>
                   <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
                     e della Scienza di Torino
@@ -125,7 +141,7 @@ const Sidebar = (props) => {
                   height="100px" 
                   //to-do show the badge of honor held by the user 
                   //to-do otherwise the no_badge pic
-                  src={badgeSource()}
+                  src={imgSrc}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
