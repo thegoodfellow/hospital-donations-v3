@@ -224,6 +224,13 @@ const Sidebar = (props) => {
               setSelected={setSelected}
             />
             <Item
+              title="minted NFTs"
+              to="/mintedNFTs"
+              icon={<BarChartOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Contacts Information"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}

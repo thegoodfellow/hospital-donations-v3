@@ -6,7 +6,7 @@ import Dashboard from "./scenes/dashboard";
 import Donations from "./scenes/donations";
 import Invoices from "./scenes/invoices";
 import Contacts from "./scenes/contacts";
-import Bar from "./scenes/bar";
+import MintedNfts from "./scenes/mintedNFTs";
 import DonationForm from "./scenes/donationForm";
 import ClaimNFT from "./scenes/claimNFT";
 import Line from "./scenes/line";
@@ -102,7 +102,7 @@ function App() {
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/donationForm" element={<DonationForm signer={signer} />} />
               <Route path="/claimNFT" element={<ClaimNFT signer={signer} />}/>
-              <Route path="/bar" element={<Bar />} />
+              <Route path="/mintedNFTs" element={<MintedNfts signer={signer} />} />
               <Route path="/pie" element={<Pie />} />
               <Route path="/line" element={<Line />} />
               <Route path="/faq" element={<FAQ />} />

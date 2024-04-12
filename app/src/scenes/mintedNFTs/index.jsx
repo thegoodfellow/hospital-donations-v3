@@ -1,20 +1,57 @@
-import { useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import Header from "../../components/Header";
+import BarChart from "../../components/BarChart";
+import { useState, useEffect } from "react";
+import minted from "../../scripts/minted";
 import { ResponsiveBar } from "@nivo/bar";
-import { tokens } from "../theme";
-//import { mockBarData as data } from "../data/mockData";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../theme";
 
-const BarChart = ({ isDashboard = false }, data) => {
+const MintedNfts = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [data, setData] = useState([
+    {
+      type: "BRONZE",
+      minted: 0,
+      MAX_SUPPLY: 0,
+    },
+    {
+      type: "SILVER",
+      minted: 0,
+      MAX_SUPPLY: 0,
+    },
+    {
+      type: "GOLD",
+      minted: 0,
+      MAX_SUPPLY: 0,
+    },
+    {
+      type: "PLATINUM",
+      minted: 0,
+      MAX_SUPPLY: 0,
+    },
+  
+  ]);
+
+  useEffect(() => {
+    async function getData(){
+      console.log("mintedNFTs useeffect");
+      console.log(signer.signer);
+      const d = await minted(signer);
+      setData(d);
+    }
+    getData();
+  }, []);
+
+
 
   return (
-    <div>dd:{JSON.stringify(data)}</div>
-  );
-};
-
-export default BarChart;
-/*
-<ResponsiveBar
+    <Box m="20px">
+      <Header title="Minted NFTs" subtitle="How people supported the cause" />
+      <Box height="75vh">
+        data:{JSON.stringify(data)}
+        <ResponsiveBar
       layout="horizontal"
       groupMode="grouped"
       indexScale={{ type: 'band', round: true }}
@@ -80,7 +117,7 @@ export default BarChart;
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "", // changed
+        legend:  "", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -88,7 +125,7 @@ export default BarChart;
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "TYPE", // changed
+        legend: "TYPE", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -128,4 +165,11 @@ export default BarChart;
         return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
       }}
     />
-*/
+      </Box>
+
+    </Box>
+  );
+};
+
+export default MintedNfts;
+//<BarChart data={data}/>
