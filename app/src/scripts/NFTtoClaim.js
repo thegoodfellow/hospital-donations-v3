@@ -23,9 +23,36 @@ async function NFTtoCLaim(signer) {
         };
         //console.log("JSON.stringify(ret): " + JSON.stringify(ret));
         //console.log("donation.name: " + donation.name);
+
+        function whichToken(){//to-do refurmulate this code..looks really bad
+            console.log("donation.amount: " + donation.amount);
+        
+            let which = "NO TOKEN";
+            if(donation.amount>0){
+              if(donation.amount <= BRONZE_THRESHOLD){
+                which = "BRONZE";
+              }
+              else{
+                if(donation.amount <= SILVER_THRESHOLD){
+                  which = "SILVER";
+                }
+                else{
+                  if(donation.amount <= GOLD_THRESHOLD){
+                    which = "GOLD";
+                  }
+                  else{
+                    which = "PLATINUM";
+                  }
+                }
+              }
+            }
+            return which;
+          }
+
+
         console.log("END - scirpts/NFTtoCLaim.js");
     
-        return ret;
+        return whichToken();
 
     } catch (error) {
         console.error("Error during NFTtoCLaim:", error);

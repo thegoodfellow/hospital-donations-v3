@@ -92,7 +92,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} account={account} nickname={nickname} />
+          <Sidebar isSidebar={isSidebar} account={account} nickname={nickname} signer={signer} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>

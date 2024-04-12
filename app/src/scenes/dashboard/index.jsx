@@ -22,7 +22,6 @@ const Dashboard = () => {
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
-
         <Box>
           <Button
             sx={{

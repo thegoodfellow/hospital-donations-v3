@@ -12,71 +12,40 @@ const ClaimNFT = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [donation, setDonation] = useState({});
-  const [BRONZE_THRESHOLD, setBRONZE_THRESHOLD] = useState();
-  const [SILVER_THRESHOLD, setSILVER_THRESHOLD] = useState();
-  const [GOLD_THRESHOLD, setGOLD_THRESHOLD] = useState();
-
+  const [whichNFT, setWhichNFT] = useState("NO TOKEN");
   useEffect( () => {
     console.log("app/src/scenes/cliamNFT - useEffect");
     async function getData(){
       console.log("getData:");
       console.log("JSON.stringify(signer): " + JSON.stringify(signer));
       const data = await NFTtoCLaim(signer.signer);
-      setDonation(data.donation);
-      setBRONZE_THRESHOLD(data.BRONZE_THRESHOLD);
-      setSILVER_THRESHOLD(data.SILVER_THRESHOLD);
-      setGOLD_THRESHOLD(data.GOLD_THRESHOLD);
+      setWhichNFT(data);
     }
     getData();
   }, []);//to-do fill the dependecies array..left it empy as it was calling useEffect in loop..
 
-  function whichToken(){//to-do refurmulate this code..looks really bad
-    console.log("donation.amount: " + donation.amount);
 
-    let which = "NO TOKEN";
-    if(donation.amount>0){
-      if(donation.amount <= BRONZE_THRESHOLD){
-        which = "BRONZE";
-      }
-      else{
-        if(donation.amount <= SILVER_THRESHOLD){
-          which = "SILVER";
-        }
-        else{
-          if(donation.amount <= GOLD_THRESHOLD){
-            which = "GOLD";
-          }
-          else{
-            which = "PLATINUM";
-          }
-        }
-      }
-    }
-    return which;
-  }
   
   const whichText = () => {
-    if(whichToken() === "NO TOKEN"){
+    if(whichNFT === "NO TOKEN"){
       return "You are not entitled to any NFT";
     }
-    return "You are entitled to a " + whichToken() + " NFT";
+    return "You are entitled to a " + whichNFT + " NFT";
   };
   const whichSource = () => {
-    const which = whichToken();
-    if(which === "NO TOKEN")
+    if(whichNFT === "NO TOKEN")
       return `../../assets/no_badge_of_honour.png`;
-    if(which === "BRONZE")
+    if(whichNFT === "BRONZE")
       return `../../assets/bronze_badge_of_honour.png`;
-    if(which === "SILVER")
+    if(whichNFT === "SILVER")
       return `../../assets/silver_badge_of_honour.png`;
-    if(which === "GOLD")
+    if(whichNFT === "GOLD")
       return `../../assets/gold_badge_of_honour.png`;
-    if(which === "PLATINUM")
+    if(whichNFT === "PLATINUM")
       return `../../assets/platinum_badge_of_honour.png`;
   };
   const whichButton = () => {
-    return whichToken() === "NO TOKEN" ? <Button color="secondary" variant="contained"></Button> 
+    return whichNFT === "NO TOKEN" ? <Button color="secondary" variant="contained"></Button> 
       : <Button type="submit" color="secondary" variant="contained" onClick={handleFormSubmit} > CLAIM </Button>;
   };
 

@@ -44,6 +44,10 @@ pragma solidity ^0.8.0;
 //withdrawFunds func:
 //transfer ETH of the contract to the owner address
 
+//moved emission of event NFTClaimed from claimNFT method to _mintNFT method 
+//replaced argument msg.sender with tx.origin and tokenId with startId + supply
+//this way the second topic of the event match the actua tokenId..
+
 //to-do eventually add oracle so can have the thresholds in euros...think about that..might be tricky..lot of implications/complications
 //to-do eventually add function to update/write the contract on how the money are spent (communication of impact) 
 //to-do eventually external service to convert the donations straight away in euro to mitigate/avoid volatility..
@@ -127,8 +131,6 @@ contract HealthCareToken is ERC721, ERC721URIStorage, Ownable {
             revert("Donation amount does not meet the requirements for any NFT type or max supply reached");
         }
 
-        emit NFTClaimed(sender, tokenId, _ipfsHash);
-
         // Reset donation amount to prevent donor from claiming multiple times
         donations[sender].amount = 0;
     }
@@ -136,6 +138,8 @@ contract HealthCareToken is ERC721, ERC721URIStorage, Ownable {
     function _mintNFT(address recipient, uint256 /* tokenId */, uint256 startId, uint256 supply, string memory _ipfsHash) private {
         _safeMint(recipient, startId + supply);
         _setTokenURI(startId + supply, _ipfsHash);
+        //to-do make sure the actual tokenIds assigned is the one of the NFT and not just a progressive one
+        emit NFTClaimed(tx.origin, startId + supply, _ipfsHash);
     }
 
     function withdrawFunds() external onlyOwner {
