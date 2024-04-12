@@ -45,8 +45,13 @@ const ClaimNFT = (signer) => {
       return `../../assets/platinum_badge_of_honour.png`;
   };
   const whichButton = () => {
-    return whichNFT === "NO TOKEN" ? <Button color="secondary" variant="contained"></Button> 
-      : <Button type="submit" color="secondary" variant="contained" onClick={handleFormSubmit} > CLAIM </Button>;
+    return whichNFT === "NO TOKEN" ? <div></div> 
+      : <Button type="submit"  color="secondary" variant="contained" onClick={handleFormSubmit} 
+          style={{maxWidth: '100px', maxHeight: '100px', minWidth: '40%', minHeight: '60px'}} >
+          <Typography align="center" variant="h1" color={colors.grey[900]} fontWeight="bold" mb="5px" >
+            CLAIM 
+          </Typography> 
+        </Button>;
   };
 
   const handleFormSubmit = async () => {
@@ -55,12 +60,12 @@ const ClaimNFT = (signer) => {
 
 
   return (
-    <Box m="20px">
+    <Box m="20px" >
       <Header title="Claim NFT" subtitle="Carve your name into stone" />
-      <Box display="grid" alignItems="center"  >
-        <Typography>{whichText()}</Typography>
-        <img src={whichSource()} />
-        {whichButton()}
+      <Box display="grid" alignItems="center" mt="20px" justifyContent="center" minHeight="50vh" >
+        <Typography align="center" variant="h2" color={colors.grey[100]} fontWeight="bold" mb="5px" >{whichText()}</Typography>
+        <Box align="center" mb="15px" ><img src={whichSource()}/></Box>
+        <Box align="center" mb="5px" >{whichButton()}</Box>
       </Box>
     </Box>
   );
