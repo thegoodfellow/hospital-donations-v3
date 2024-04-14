@@ -11,6 +11,7 @@ import FAQ from "./scenes/faq";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 
+//BLOCKCHAIN
 import { ethers } from 'ethers';
 
 //installed axios with flag --legacy-peer-deps
