@@ -1,40 +1,27 @@
-require('dotenv').config({ path: '../.env' })
+require('dotenv').config({ path: '../.env' });
+const fs = require('fs');
+
 const ethers = require('ethers');
 const hre = require("hardhat");
 
-const fs = require('fs');
 const addressPath = "../contractAddress.json";
 const abiPath = "../artifacts/contracts/HospitalDonationV6.sol/HealthCareToken.json";
 
 async function getContract() {
-  console.log("START - scripts/getContract.js");
 
-    //retrieve data from json file
-    let rawData = fs.readFileSync(addressPath); 
-    let jsonData = JSON.parse(rawData); 
-    const address = jsonData.address;
-    console.log("address: " + address);
-  
-    //retrieve contract from node
-    console.log("abiPath: " + abiPath);
-    rawData = fs.readFileSync(abiPath);
-    //console.log("abi - JSON.stringify(rawData): " + JSON.stringify(rawData)); 
-    jsonData = JSON.parse(rawData); 
-    const abi = jsonData.abi;
-    //console.log("JSON.stringify(abi): " + JSON.stringify(abi));
-  
-  console.log("process.env.NETWORK_URL: " + process.env.NETWORK_URL);
+  //retrieve data from json file
+  let rawData = fs.readFileSync(addressPath); 
+  let jsonData = JSON.parse(rawData); 
+  const address = jsonData.address;
+  //retrieve contract from node
+  rawData = fs.readFileSync(abiPath);
+  jsonData = JSON.parse(rawData); 
+  const abi = jsonData.abi;
+
   const provider = new ethers.JsonRpcProvider(process.env.NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
-  console.log("JSON.stringify(provider): " + JSON.stringify(provider));
-
   const HospitalDonationV6 = new ethers.Contract(address, abi, provider);
-  //console.log("JSON.stringify(HospitalDonationV6): " + JSON.stringify(HospitalDonationV6));
-  //const addressOfContr = await HospitalDonationV6.getAddress();
-  //console.log("addressOfContr: " + addressOfContr);
-  
-  console.log("END - scripts/getContract.js");
-  return HospitalDonationV6;
 
+  return HospitalDonationV6;
 }
 
 
