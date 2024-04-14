@@ -1,6 +1,5 @@
 import { Box, Typography, useTheme, Button } from "@mui/material";
 import Header from "../../components/Header";
-import PieChart from "../../components/PieChart";
 import { useEffect, useState } from 'react';
 import NFTtoCLaim from "../../scripts/NFTtoClaim";
 import claimOneNft from "../../scripts/claimOneNft"; //it is called this way otherwise it is consfusing with the component
