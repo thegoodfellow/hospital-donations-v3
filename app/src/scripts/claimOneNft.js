@@ -3,7 +3,7 @@ const getContract = require("./getContract");
 
 async function claimOneNtf(signer) {
 
-    try{
+    try{//to-do should check if there are still tokens available for that type...chargin bar?
 
         console.log("START - scirpts/claimOneNtf.js");
         const contract = await getContract();

@@ -1,11 +1,17 @@
+//GRPHIC
 import { Box, Typography, useTheme, Button } from "@mui/material";
-import Header from "../../components/Header";
-import { useEffect, useState } from 'react';
-import NFTtoCLaim from "../../scripts/NFTtoClaim";
-import claimOneNft from "../../scripts/claimOneNft"; //it is called this way otherwise it is consfusing with the component
 import { tokens } from "../../theme";
 
-//to-do should check if there are still tokens available for that type...chargin bar?
+//COMPONENTS
+import Header from "../../components/Header";
+
+//SCENE VARIABLES 
+import { useEffect, useState } from 'react';
+
+//BLOCKCHAIN
+import NFTtoCLaim from "../../scripts/NFTtoClaim"; //it checks if there is any NFT and which type to claim for the wallet address connected 
+import claimOneNft from "../../scripts/claimOneNft"; //it calls the method claimNFT of the smart contract
+
 
 //to-do graphic interface show random shit --> got to check -->run few test
 

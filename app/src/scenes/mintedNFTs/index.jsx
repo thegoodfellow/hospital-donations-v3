@@ -1,15 +1,22 @@
+//COMPONENTS
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
-import BarChart from "../../components/BarChart";
-import { useState, useEffect } from "react";
-import minted from "../../scripts/minted";
 import { ResponsiveBar } from "@nivo/bar";
+
+//GRAPHIC
 import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+
+//SCENE VARIABLES
+import { useState, useEffect } from "react";
+
+//BLOCKCHAIN
+import minted from "../../scripts/minted";//it check how many NFTs have been minted per type and the maxim supplies as well
 
 const MintedNfts = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const [data, setData] = useState([
     {
       type: "BRONZE",
@@ -31,20 +38,15 @@ const MintedNfts = (signer) => {
       minted: 0,
       MAX_SUPPLY: 0,
     },
-  
   ]);
 
   useEffect(() => {
     async function getData(){
-      console.log("mintedNFTs useeffect");
-      console.log(signer.signer);
       const d = await minted(signer);
       setData(d);
     }
     getData();
   }, []);
-
-
 
   return (
     <Box m="20px">
@@ -117,7 +119,7 @@ const MintedNfts = (signer) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend:  "", // changed
+        legend:  "", 
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -125,7 +127,7 @@ const MintedNfts = (signer) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "TYPE", // changed
+        legend: "TYPE", 
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -172,4 +174,3 @@ const MintedNfts = (signer) => {
 };
 
 export default MintedNfts;
-//<BarChart data={data}/>

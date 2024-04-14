@@ -1,43 +1,38 @@
+//COMPONENTS 
+import Header from "../../components/Header";
 import { Box, Button, TextField } from "@mui/material";
+
+//BLOCKCHAIN
+import donate from "../../scripts/donate";//it calls the method donate of the smart contract
+
+//FORM
 import { Formik } from "formik";
 import * as yup from "yup"; //Yup is a schema builder for runtime value parsing and validation
 //to-do consider upgrading to version 1 (actual v0.32.11)
 //to-do v1 might work only for typescript, check that out
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
-
-import donate from "../../scripts/donate";
 
 const DonationForm = (signer) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values) => {
-    console.log("START - donationForm/handleFormSubmit");
+  
+  const handleFormSubmit = (values) => {//it gets the values from the fomr and feed into the donate function
     //to-do consider displaying errors, generic as well (fall-down to donate.js) somewhere on the front-end
-    console.log(values);
     //to-do eventually save the data in a db
     //to-do DB has to be implemented
     if(Object.keys(signer).length === 0){//to-do make sure this is a good way of checking for empty objects
       //to-do implement - print something on browser
     }else{
-      console.log("JSON.stringify(signer): " + JSON.stringify(signer));
-      console.log("signer.signer.address: " + signer.signer.address);
       //to-do consider passing values and than values.signer...signer.signer is really confusing
       //signer = { "signer": {"provider": {}, "address": "0x...." } }
       const _signer = signer.signer;//to-do if no wallet is connected the signer is set to empty object (useState())
                             //to-do should handle the behaviour in case of no wallet connected
                             //when a wallet is connected signer is an object with 2 properties provider & address
-      console.log("signer: " + signer);
-      
       const _name = values.firstName;
       const _surname = values.lastName;
       const _amount = values.amount;
-      console.log("arguments to feed in the donate func:");
-      console.log("_signer:" + _signer + ", _name: " + _name + ", _surname: " + _surname + ", _amount: " + _amount);
-      const tx = donate(_signer, _name, _surname, _amount);
-
+      const tx = donate(_signer, _name, _surname, _amount);//to-do the transaction returned is not used...
     }
-    console.log("END - donationForm/handleFormSubmit");
   };
 
   return (
@@ -153,13 +148,11 @@ const DonationForm = (signer) => {
                 onChange={handleChange}
                 value={values.amount}
                 name="amount"
-                //to-do once the control for the amount is implemented replace with it below
                 error={!!touched.amount && !!errors.amount}
                 helperText={touched.amount && errors.amount}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
-            {/*TO-DO implement the donation mechanism for the button*/}
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
                 DONATE
@@ -179,7 +172,6 @@ const amountRegExp = /^\d{1,8}(?:\.\d{0,18})?$/; //decimals are set based on the
                                                 //we use the dot convention no comma
 const checkoutSchema = yup.object().shape({
   //to-do eventually do not require following filed
-  //to-do only necessary one is the amount
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
@@ -189,13 +181,10 @@ const checkoutSchema = yup.object().shape({
     .required("required"),
   address1: yup.string().required("required"),
   address2: yup.string().required("required"),
-  //to-do check if the value typed is a valid number
   amount: yup
   .string() //parseEther expects a string
   .matches(amountRegExp, "amount is not valid")
   .required("required"),
-  //might use the following:
-  //yup.number().required().positive(),
 });
 const initialValues = {
   firstName: "",
