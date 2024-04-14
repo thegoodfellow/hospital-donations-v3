@@ -1,6 +1,6 @@
 
 
-//to-do read donations from contract
+
 //to-do read them from varibles stored on contract memory or from events?
 //to-do which one is cheaper/faster/easier?
 //to-do if i read from events got tu sum the amounts donated to decide which token, on storage already got the sum...
@@ -14,9 +14,6 @@
 //to-do for the time-being i export the functions one by one..consider a different architecture..library??class??which one is more easy/efficient??
 
 const getContract = require("../app/src/scripts/getContract"); //to-do make sure this import is legal
-
-
-
 
 /**
  * read the events DonationReceived from contract return a list of them
@@ -49,7 +46,6 @@ async function donations(){
  */
 async function claimedNFTs(){
     const contract = await getContract();
-
     const events = await contract.queryFilter("NFTClaimed", 0, "latest");
     const redEvents = events.map((x) => {
         ret = {};
@@ -61,10 +57,9 @@ async function claimedNFTs(){
         ret.ipfsHash = x.args[2];
         return ret;
     });
-
     return redEvents;
-
 }
+
 /**
  * 
  * @returns {Object} {BRONZE_MAX_SUPPLY, SILVER_MAX_SUPPLY, GOLD_MAX_SUPPLY, PLATINUM_MAX_SUPPLY, BRONZE_THRESHOLD, SILVER_THRESHOLD, GOLD_THRESHOLD, 
@@ -72,8 +67,8 @@ async function claimedNFTs(){
  */
 async function constants(){
     const contract = await getContract();
-
     const ret = {};
+
     ret.BRONZE_MAX_SUPPLY = await  contract.BRONZE_MAX_SUPPLY();
     ret.SILVER_MAX_SUPPLY = await  contract.SILVER_MAX_SUPPLY();
     ret.GOLD_MAX_SUPPLY = await contract.GOLD_MAX_SUPPLY();
@@ -90,23 +85,18 @@ async function constants(){
     ret.PLATINUM_START_ID = await contract.PLATINUM_START_ID();
 
     return ret;
-
 }
 
 /**
  * @returns {{ BigInt, BigInt, BigInt, BigInt }} { bronzeSupply, silverSupply, goldSupply, platinumSupply }
  */
 async function numberClaimedNFTSperType() {
-
-
     const contract = await getContract();
-
     const ret = {};
     ret.bronzeSupply = await  contract.bronzeSupply();
     ret.silverSupply = await  contract.silverSupply();
     ret.goldSupply = await contract.goldSupply();
     ret.platinumSupply = await contract.platinumSupply();
-
     return ret;
 }
 
@@ -115,29 +105,12 @@ async function numberClaimedNFTSperType() {
  */
 async function donationsPerAddress(){
     const donationsArray = await donations();
-
     const result = donationsArray.reduce((result, item) => {
         const donor = (result[item.donor] || []);
         donor.push(item);
         result[item.donor] = donor;
         return result;
       }, []);
-      //to-do the above code is able to retrieve all the data needed but it is abit complicated
-      //to-do find a way to iterate through this objects more comfortable
-/* 
-      Object.entries(result).forEach(([key, value]) => {
-        console.log("first call");
-        console.log(`${key}: ${value}`);
-        Object.entries(value).forEach(([key, value]) => {
-            console.log("second call");
-            console.log(`${key}: ${value}`);
-            Object.entries(value).forEach(([key, value]) => {
-                console.log("third call");
-                console.log(`${key}: ${value}`);
-            });
-        });
-    });
-  */
  return result;
 }
 
@@ -146,30 +119,12 @@ async function donationsPerAddress(){
  */
 async function claimedNFTsPerAddress(){
     const claimedNFTsArray = await claimedNFTs();
-
     const result = claimedNFTsArray.reduce((result, item) => {
         const donor = (result[item.donor] || []);
         donor.push(item);
         result[item.donor] = donor;
         return result;
       }, []);
-      //to-do the above code is able to retrieve all the data needed but it is abit complicated
-      //to-do find a way to iterate through this objects more comfortable
-/*
-      console.log("claimed NFTS return value:");
-      Object.entries(result).forEach(([key, value]) => {
-        console.log("first call");
-        console.log(`${key}: ${value}`);
-        Object.entries(value).forEach(([key, value]) => {
-            console.log("second call");
-            console.log(`${key}: ${value}`);
-            Object.entries(value).forEach(([key, value]) => {
-                console.log("third call");
-                console.log(`${key}: ${value}`);
-            });
-        });
-    });
-  */
  return result;
 }
 
