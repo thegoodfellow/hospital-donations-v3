@@ -4,15 +4,12 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Donations from "./scenes/donations";
-import Invoices from "./scenes/invoices";
-import Contacts from "./scenes/contacts";
 import MintedNfts from "./scenes/mintedNFTs";
 import DonationForm from "./scenes/donationForm";
 import ClaimNFT from "./scenes/claimNFT";
 import FAQ from "./scenes/faq";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import Calendar from "./scenes/calendar/calendar";
 
 import { ethers } from 'ethers';
 
@@ -95,13 +92,10 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/donations" element={<Donations />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/invoices" element={<Invoices />} />
               <Route path="/donationForm" element={<DonationForm signer={signer} />} />
               <Route path="/claimNFT" element={<ClaimNFT signer={signer} />}/>
               <Route path="/mintedNFTs" element={<MintedNfts signer={signer} />} />
               <Route path="/faq" element={<FAQ />} />
-              <Route path="/calendar" element={<Calendar />} />
             </Routes>
           </main>
         </div>
