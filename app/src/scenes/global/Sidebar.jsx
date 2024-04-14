@@ -43,6 +43,7 @@ const Sidebar = (props) => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  //to-do have a look on the useEffect for badge pic it doens't show the right one after the nft is is claimed --> dependencies array??
   const [imgSrc, setImgSrc] = useState("NO TOKEN");
 
   async function badgeSource(){
