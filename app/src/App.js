@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
+//SCENES
 import Dashboard from "./scenes/dashboard";
 import Donations from "./scenes/donations";
 import MintedNfts from "./scenes/mintedNFTs";
 import DonationForm from "./scenes/donationForm";
 import ClaimNFT from "./scenes/claimNFT";
 import FAQ from "./scenes/faq";
+//NAVBARS
+import Topbar from "./scenes/global/Topbar";
+import Sidebar from "./scenes/global/Sidebar";
+
+//GRAPHIC
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+
+//APP VARIABLES & ROUTING
+import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 //BLOCKCHAIN
 import { ethers } from 'ethers';
@@ -25,7 +31,9 @@ import { ethers } from 'ethers';
 
 function App() {
   const [theme, colorMode] = useMode();
+
   const [isSidebar, setIsSidebar] = useState(true);
+
   const [account, setAccount] = useState("Not Connected");
   //to-do consider eventually pooling all the infos in one variable, might be better?
   const [nickname, setNickname] = useState(null); //to-do check if null can cause troubles
@@ -33,13 +41,10 @@ function App() {
 
   useEffect(() => {
     async function getAccounts() {
-      console.log("START - app/getAccounts");
-
       let signer = null;
       let nickname = null;
       let _provider;
 
-      //slightly modified implementation in v6 
       //to-do it might needs some modifications to not crash in case metamask is not installed
       if (window.ethereum == null) {
 
@@ -47,38 +52,27 @@ function App() {
           // which is backed by a variety of third-party services (such
           // as INFURA). They do not have private keys installed,
           // so they only have read-only access
-          console.log("MetaMask not installed; using read-only defaults");
           _provider = ethers.getDefaultProvider();
           
 
       } else {
-
           // Connect to the MetaMask EIP-1193 object. This is a standard
           // protocol that allows Ethers access to make all read-only
           // requests through MetaMask.
           _provider = new ethers.BrowserProvider(window.ethereum);
-          
           // It also provides an opportunity to request access to write
           // operations, which will be performed by the private key
           // that MetaMask manages for the user.
           signer = await _provider.getSigner();
-          console.log("JSON.stringify(signer): " + JSON.stringify(signer));
-          
           const accounts = await _provider.send('eth_requestAccounts', []);
 
-          //nickname = await provider.lookupAddress(accounts[0]);
           //to-do eventually have a look on how to implement the ENS name thing
-          //to-do in the end retrieve it over here and show
-          //to-do for the time being juect levae null
-          //to-do check if null can cause troubles
       
           setAccount(accounts[0]);
           setSigner(signer);
           setNickname(nickname);
       }
-      console.log("END - app/getAccounts");
     }
-
     getAccounts();
   }, [account]);
 
