@@ -7,6 +7,8 @@ import { tokens } from "../../theme";
 
 //to-do should check if there are still tokens available for that type...chargin bar?
 
+//to-do graphic interface show random shit --> got to check -->run few test
+
 const ClaimNFT = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
