@@ -52,7 +52,6 @@ const MintedNfts = (signer) => {
     <Box m="20px">
       <Header title="Minted NFTs" subtitle="How people supported the cause" />
       <Box height="75vh">
-        data:{JSON.stringify(data)}
         <ResponsiveBar
       layout="horizontal"
       groupMode="grouped"

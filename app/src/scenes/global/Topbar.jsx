@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -17,16 +17,19 @@ const Topbar = () => {
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
-      {/* SEARCH BAR */}
+      {/* to-do this piece of code has to be deleted, i leave it here for the time being otherwise the icons on the right will be brought left.. */}
       <Box
         display="flex"
-        backgroundColor={colors.primary[400]}
+        
         borderRadius="3px"
+        width="90%"
+        alignItems="center"
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
+        <Box width="45%" display="flex" justifyContent="flex-end"><Typography variant="h2" color="#F4E869">SALUS</Typography> </Box>
+        <Box width="10%" display="flex" justifyContent="center" > 
+          <img src="../../../assets/site_logo.png" width="60%" height="60%" />
+        </Box>
+        <Box width="45%" alignItems="center" ><Typography variant="h2" color="#3085C3" >SCIENTIA</Typography></Box>
       </Box>
 
       {/* ICONS */}

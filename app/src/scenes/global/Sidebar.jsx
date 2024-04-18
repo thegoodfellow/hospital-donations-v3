@@ -150,7 +150,7 @@ const Sidebar = (props) => {
                   {/* to-do show the wallet nickname, if there is not than show nothing */}
                   {props.nickname}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                <Typography variant="subtitle2" color={colors.greenAccent[500]} >
                   {/* show the wallet address if one is connected otherwise no address */}
                   {/* to-do shorten the account, it does not fit into the sideBar */}
                     {props.account}
