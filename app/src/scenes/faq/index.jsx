@@ -65,7 +65,7 @@ const FAQ = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            As long as you use trusted third parties plug-ins.
+            As long as you use trusted third parties plug-ins. 
           </Typography>
         </AccordionDetails>
       </Accordion>
