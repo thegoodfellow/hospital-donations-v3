@@ -8,7 +8,7 @@ The entry page is made by the components:
 - Header
 - Box
 
-![alt text](UI_scrrenschots/entry_page.png)
+![screenshot of the entry page](UI_scrrenschots/entry_page.png)
 
 ### TOPBAR
 
@@ -16,11 +16,11 @@ In the middle of the TopBar is located a motto with a logo in between the 2 word
 On the right side several icons are located, the moon icon allows to switch from the bright mode to the dark mode.
 Once the moon icon is licked it is switched with a sun icon and most of the colors of the site are switched to brighter ones.
      
-![alt text](UI_scrrenschots/TopBar.png)
+![screenshot of the TopBar](UI_scrrenschots/TopBar.png)
 
 ### HEADER
 
-![alt text](UI_scrrenschots/header_entry_page.png)
+![screenshot of the header of the entry page](UI_scrrenschots/header_entry_page.png)
 
 ### PAGE CONTENT
 
@@ -31,4 +31,8 @@ In the second row, on the left-side there is the component `<DonationChart>`, di
 On the third row is located the component `<MintedNFTsChart>`, diplsaying how many NFTs have been minted per type by the Smart Contract.
 All the data showed in the page are made up and the interactions with Smart Contract on the BlockChain have to be implemented.
 
-![alt text](UI_scrrenschots/entry_page_content.png)
+![screenshot of the entry page content](UI_scrrenschots/entry_page_content.png)
+
+### SIDEBAR
+
+![screenshot of the SideBar with no wallet connected](UI_scrrenschots/SideBar_no_wallet.png)
