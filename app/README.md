@@ -1,5 +1,5 @@
 # GRAPHIC INTERFACE
-
+### PAGE CONTENT
 ## ENTRY PAGE
 
 The entry page is made by the components:
