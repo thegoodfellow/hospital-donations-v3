@@ -1,5 +1,5 @@
 # GRAPHIC INTERFACE
-### PAGE CONTENT
+
 ## ENTRY PAGE
 
 The entry page is made by the components:
@@ -35,4 +35,30 @@ All the data showed in the page are made up and the interactions with Smart Cont
 
 ### SIDEBAR
 
+On the left upper-side is located the denomination of company while on the right a toogle button allowing to collapse the SideBar.
+Below if the user is not conected with any wallet or hasn't claimed any of the NFTs of the contract it is desplayed a round no badge picture.
+If the user has claimed at least one NFTs of the available ones it is displayed a picture representing the better NFT among the claimed ones.
+Below that is located either a text "not connected" if the user is not connected to the application with any wallet either the address of the connected wallet.
+Lastly, there are the link to the other pages of the site.
+
 ![screenshot of the SideBar with no wallet connected](UI_scrrenschots/SideBar_no_wallet.png)
+
+## DONATION FORM
+
+On this page, the user can fill the form with th required data, among those the name, the surname and the amount which once the claim button is clicked will be fed into the donate function of the Smart Contract.
+The other data for the time being won't be saved anywhere.
+The donationForm scene is built using other than the Material UI for the graphic interface, the libraries `Formik` and `Yup` for the form schema and data validation.
+
+
+![screenshot of the donation form page](UI_scrrenschots/donation_form.png)
+
+## CLAIM NFT
+
+![screenshot of the claimNFT scene when no wallet is connected](UI_scrrenschots/claimNFT_page_no_badge.png)
+
+## FAQ PAGE
+
+## DONATIONS
+
+## MINTED NFTs
+
