@@ -19,6 +19,8 @@ app.use(cors({
     const newDonations = [];
     async function waitFor(){
       const newDonations = await donations();
+      console.log("newDonations");
+      console.log(JSON.stringify(newDonations));
       res.send(newDonations);
     }
     waitFor();

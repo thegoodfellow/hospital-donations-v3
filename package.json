@@ -11,6 +11,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
     "axios": "^1.6.8",
     "chai": "^4.4.1",
     "cors": "^2.8.5",

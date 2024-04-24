@@ -30,6 +30,8 @@ const Donations = () => {
       }
     }
     getDonations();
+    console.log("donations");
+    console.log(JSON.stringify(donations));
   }, [donations]);
 
   function getRowId(row) {

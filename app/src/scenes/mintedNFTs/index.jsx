@@ -42,8 +42,10 @@ const MintedNfts = (signer) => {
 
   useEffect(() => {
     async function getData(){
-      const d = await minted(signer);
-      setData(d);
+      if(signer.signer !== undefined){
+        const d = await minted(signer);
+        setData(d);
+      }
     }
     getData();
   }, []);

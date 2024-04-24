@@ -1,10 +1,12 @@
 const ethers = require('ethers');
 const getContractBySigner = require("./getContractBySigner");
+//const getContract = require("./getContract");
 
 async function minted(signer) {
 
     try{
         const contract = await getContractBySigner(signer.signer);
+        //const contract = await getContract();
 
         //to-do check if it makes sense this hard-conversion and if it can cause troubles..
         const BRONZE_MAX_SUPPLY = Number( await  contract.BRONZE_MAX_SUPPLY() );
