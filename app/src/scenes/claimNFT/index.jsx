@@ -13,8 +13,6 @@ import NFTtoCLaim from "../../scripts/NFTtoClaim"; //it checks if there is any N
 import claimOneNft from "../../scripts/claimOneNft"; //it calls the method claimNFT of the smart contract
 
 
-//to-do graphic interface show random shit --> got to check -->run few test
-
 const ClaimNFT = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -29,7 +27,7 @@ const ClaimNFT = (signer) => {
       setWhichNFT(data);
     }
     getData();
-  }, []);//to-do fill the dependecies array..left it empy as it was calling useEffect in loop..
+  }, []);
 
 
   

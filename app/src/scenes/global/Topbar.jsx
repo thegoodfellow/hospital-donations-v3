@@ -17,7 +17,6 @@ const Topbar = () => {
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
-      {/* to-do this piece of code has to be deleted, i leave it here for the time being otherwise the icons on the right will be brought left.. */}
       <Box
         display="flex"
         

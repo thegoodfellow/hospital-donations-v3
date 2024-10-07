@@ -8,7 +8,6 @@ async function minted(signer) {
         const contract = await getContractBySigner(signer.signer);
         //const contract = await getContract();
 
-        //to-do check if it makes sense this hard-conversion and if it can cause troubles..
         const BRONZE_MAX_SUPPLY = Number( await  contract.BRONZE_MAX_SUPPLY() );
         const SILVER_MAX_SUPPLY = Number(await  contract.SILVER_MAX_SUPPLY() );
         const GOLD_MAX_SUPPLY = Number(await contract.GOLD_MAX_SUPPLY() );

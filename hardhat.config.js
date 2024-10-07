@@ -1,3 +1,4 @@
+require('dotenv').config({path:__dirname+'/.env'});
 //const { auto } = require("async");
 
 require("@nomicfoundation/hardhat-toolbox");
@@ -10,5 +11,13 @@ module.exports = {
   },
   paths: {
     artifacts: "./app/src/artifacts",
+  },
+  defaultNetwork: "sepolia",
+  networks: {
+    hardhat: {},
+    sepolia: {
+      url: process.env.NETWORK_URL,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY]
+    }
   },
 };

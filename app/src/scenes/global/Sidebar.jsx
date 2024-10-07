@@ -37,7 +37,6 @@ const Sidebar = (props) => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  //to-do have a look on the useEffect for badge pic it doens't show the right one after the nft is is claimed --> dependencies array??
   const [imgSrc, setImgSrc] = useState("NO TOKEN");
 
   async function badgeSource(){
@@ -111,11 +110,8 @@ const Sidebar = (props) => {
                 ml="15px"
               >
                 <Box>
-                  <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
-                    A.O.U. Città della Salute 
-                  </Typography>
-                  <Typography variant="h6" color={colors.grey[100]} fontWeight="bold">
-                    e della Scienza di Torino
+                  <Typography variant="h3" color={colors.grey[100]} fontWeight="bold">
+                    HOLY MONKEY
                   </Typography>
                 </Box>
                 <Box>
@@ -134,8 +130,6 @@ const Sidebar = (props) => {
                   alt="badge of honor"
                   width="100px"
                   height="100px" 
-                  //to-do show the badge of honor held by the user 
-                  //to-do otherwise the no_badge pic
                   src={imgSrc}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -147,12 +141,9 @@ const Sidebar = (props) => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  {/* to-do show the wallet nickname, if there is not than show nothing */}
                   {props.nickname}
                 </Typography>
                 <Typography variant="subtitle2" color={colors.greenAccent[500]} >
-                  {/* show the wallet address if one is connected otherwise no address */}
-                  {/* to-do shorten the account, it does not fit into the sideBar */}
                     {props.account}
                 </Typography>
               </Box>

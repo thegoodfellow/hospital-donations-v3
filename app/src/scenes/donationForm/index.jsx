@@ -8,8 +8,6 @@ import donate from "../../scripts/donate";//it calls the method donate of the sm
 //FORM
 import { Formik } from "formik";
 import * as yup from "yup"; //Yup is a schema builder for runtime value parsing and validation
-//to-do consider upgrading to version 1 (actual v0.32.11)
-//to-do v1 might work only for typescript, check that out
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const DonationForm = (signer) => {
@@ -17,21 +15,14 @@ const DonationForm = (signer) => {
 
   
   const handleFormSubmit = (values) => {//it gets the values from the fomr and feed into the donate function
-    //to-do consider displaying errors, generic as well (fall-down to donate.js) somewhere on the front-end
-    //to-do eventually save the data in a db
-    //to-do DB has to be implemented
     if(Object.keys(signer).length === 0){//to-do make sure this is a good way of checking for empty objects
-      //to-do implement - print something on browser
     }else{
-      //to-do consider passing values and than values.signer...signer.signer is really confusing
       //signer = { "signer": {"provider": {}, "address": "0x...." } }
-      const _signer = signer.signer;//to-do if no wallet is connected the signer is set to empty object (useState())
-                            //to-do should handle the behaviour in case of no wallet connected
-                            //when a wallet is connected signer is an object with 2 properties provider & address
+      const _signer = signer.signer;
       const _name = values.firstName;
       const _surname = values.lastName;
       const _amount = values.amount;
-      const tx = donate(_signer, _name, _surname, _amount);//to-do the transaction returned is not used...
+      const tx = donate(_signer, _name, _surname, _amount);
     }
   };
 
@@ -171,7 +162,6 @@ const amountRegExp = /^\d{1,8}(?:\.\d{0,18})?$/; //decimals are set based on the
                                                 //the 8 digits before the dot seems to be even to many but u never know
                                                 //we use the dot convention no comma
 const checkoutSchema = yup.object().shape({
-  //to-do eventually do not require following filed
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
@@ -193,9 +183,7 @@ const initialValues = {
   contact: "",
   address1: "",
   address2: "",
-  amount: "", //to-do write 0 OR empty string??? 
-              //to-do guess the empty string would be fine because 
-              //to-do if the value is not checked the form won't go through
+  amount: "",
 };
 
 export default DonationForm;

@@ -7,16 +7,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 
 //BLOCKCHAIN
-import axios from 'axios';//server 
+import readDonations from "../../scripts/donations";
 
 //SCENE VARIABLES
 import { useEffect, useState } from 'react';
 
-const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-//to-do it does not update when a new donation goes thorugh..
+//const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-const Donations = () => {
+const Donations = (signer) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -24,7 +23,8 @@ const Donations = () => {
 
   useEffect( () => {
     async function getDonations(){
-      const {data: newDonations} = await axios.get(`${serverUrl}/donations`);
+      //const {data: newDonations} = await axios.get(`${serverUrl}/donations`); //modify
+      const newDonations = await readDonations(signer);
       if(newDonations.length !== donations.length){
         setDonations(newDonations);
       }
@@ -45,9 +45,6 @@ const Donations = () => {
     minWidth: 405, 
   },
    /* {
-      //to-do replace with the wallet nickname or whatever si called
-      //to-do eventually set it to be a ENS 
-      //to-do investigate further the difference between ENS and the rest...
       field: "nickname",
       headerName: "Wallet Nickname",
       flex: 1,
@@ -57,7 +54,7 @@ const Donations = () => {
       field: "donor",
       headerName: "Wallet Address",
       cellClassName: "name-column--cell",
-      minWidth: 275, //to-do use a meniangful sizing
+      minWidth: 275,
     },
     {
       field: "name",
@@ -77,7 +74,6 @@ const Donations = () => {
       minWidth:150,
     },
    /* {
-      //to-do replace with timestamp or whatever is called
       field: "timestamp",
       headerName: "Date & Time",
       flex: 1,

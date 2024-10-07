@@ -5,7 +5,6 @@ async function NFTtoCLaim(signer) {
 
     try{
         if(signer === undefined)//if no wallet is connected
-            //to-do check if it is the best way of checking this out
           return "NO TOKEN";
         else{
           const baseContract = await getContract();
@@ -21,7 +20,7 @@ async function NFTtoCLaim(signer) {
               "SILVER_THRESHOLD": SILVER_THRESHOLD, "GOLD_THRESHOLD": GOLD_THRESHOLD
           };
 
-          function whichToken(){//to-do refurmulate this code..looks really bad
+          function whichToken(){
               let which = "NO TOKEN";
               if(donation.amount>0){
                 if(donation.amount <= BRONZE_THRESHOLD){

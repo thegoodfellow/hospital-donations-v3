@@ -1,62 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-//Downgraded to node v20.11.1 to get the Long-TermSupported version for HardHat (used Node Version Manager)
-
-//removed Counters library since it is no longer supported by openZeppelin in latest version 5.0 
-//
-
-//added a URI to the contract that is stored using IPFS
-//the contract now inherits from ERC721URIStorage
-//to the event NFTClaimed has been added the argument _ipfsHash
-//claimNFT func:
-//takes in the argument _ipfsHash
-//_mintNFT func:
-//takes the argument _ipfsHash in, call _safeMint instead of _mint
-
-//records name and surname of the donors as well
-//added a struct to record the Donation with attributes: name, surname, amount
-//in donations mapping replaced the amount with the donation struct
-//donate func & claimNFT func modified accordingly with the Donation struct
-
-//differenciate the NFT given as reward based on the aomunt donated
-//set different max supplies for bronze, silver, gold and platinum to give different rarities
-//defined the number of NFTs supplied for each type to check if there are still available to mint
-//defined 3 constant (amount threeshold) to check which type of NFT has to be claimed
-//defined and ID for each type so the user knows which type of NFT has received
-//claimNFT func:
-//if (donations[msg.sender] > BRONZE_THRESHOLD && donations[msg.sender] <= SILVER_THRESHOLD && silverSupply < SILVER_MAX_SUPPLY)
-//_mintNFT func:
-//overwritten _mint func to have different IDs based on the type --> _mint(recipient, startId + supply), calls _setTokenURI to map the tokenId with ipfsHash
-//tokenURI and supportsInterface are overridden, they have the same signature in ERC721 and ERC721URIStorage, not allowed within solidity
-
-
-//used Ownable from OpenZeppelin
-//explicity called Ownable contructor
-
-//donate func:
-//donor sends ETH to contract
-//donation is registered into donations mapping
-//claimNFT func:
-//check if the caller donation is greater than 0
-//NFT is minted to donor address
-//set donation amount to 0 (into mapping)
-//withdrawFunds func:
-//transfer ETH of the contract to the owner address
-
-//moved emission of event NFTClaimed from claimNFT method to _mintNFT method 
-//replaced argument msg.sender with tx.origin and tokenId with startId + supply
-//this way the second topic of the event match the actua tokenId..
-
-//to-do eventually add oracle so can have the thresholds in euros...think about that..might be tricky..lot of implications/complications
-//to-do eventually add function to update/write the contract on how the money are spent (communication of impact) 
-//to-do eventually external service to convert the donations straight away in euro to mitigate/avoid volatility..
-
-//to-do NFT claiming pattern?? 
-//each time a donation goes through the amount is summed with the ones of previos donations if no NFT had been claimed for those
-//we give a NFT per donation
-//another way...
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -138,7 +82,6 @@ contract HealthCareToken is ERC721, ERC721URIStorage, Ownable {
     function _mintNFT(address recipient, uint256 /* tokenId */, uint256 startId, uint256 supply, string memory _ipfsHash) private {
         _safeMint(recipient, startId + supply);
         _setTokenURI(startId + supply, _ipfsHash);
-        //to-do make sure the actual tokenIds assigned is the one of the NFT and not just a progressive one
         emit NFTClaimed(tx.origin, startId + supply, _ipfsHash);
     }
 

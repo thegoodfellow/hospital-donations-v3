@@ -16,7 +16,7 @@ const Dashboard = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="A.O.U. Città della Salute e della Scienza di Torino" subtitle="Make your contribution to the HealthCare System" />
+        <Header title="HOLY MONKEY" subtitle="Make your contribution to the HealthCare System" />
         
       </Box>
 
@@ -144,7 +144,7 @@ const Dashboard = () => {
               justifyContent="space-between"
               alignItems="center"
               borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
+              p="3px"
             >
               <Box>
                 <Typography

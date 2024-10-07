@@ -22,21 +22,13 @@ import { ethers } from 'ethers';
 
 //installed axios with flag --legacy-peer-deps
 
-//to-do consider which behaviours/patterns would be better to implement client-side (react app) or server-side (express server)
-//to-do using the express server the client would have only the response and the chance to trigger unxcepcted behaviours that would potentially cause
-//to-do damages and so on will be less, would be kind of sand-box
-//to-do about this think about what to have inside the .env files
-
-
-
 function App() {
   const [theme, colorMode] = useMode();
 
   const [isSidebar, setIsSidebar] = useState(true);
 
   const [account, setAccount] = useState("Not Connected");
-  //to-do consider eventually pooling all the infos in one variable, might be better?
-  const [nickname, setNickname] = useState(null); //to-do check if null can cause troubles
+  const [nickname, setNickname] = useState(null);
   const [signer, setSigner] = useState();
 
   useEffect(() => {
@@ -45,7 +37,6 @@ function App() {
       let nickname = null;
       let _provider;
 
-      //to-do it might needs some modifications to not crash in case metamask is not installed
       if (window.ethereum == null) {
 
           // If MetaMask is not installed, we use the default provider,
@@ -65,8 +56,6 @@ function App() {
           // that MetaMask manages for the user.
           signer = await _provider.getSigner();
           const accounts = await _provider.send('eth_requestAccounts', []);
-
-          //to-do eventually have a look on how to implement the ENS name thing
       
           setAccount(accounts[0]);
           setSigner(signer);
@@ -86,7 +75,7 @@ function App() {
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/donations" element={<Donations />} />
+              <Route path="/donations" element={<Donations signer={signer} />} />
               <Route path="/donationForm" element={<DonationForm signer={signer} />} />
               <Route path="/claimNFT" element={<ClaimNFT signer={signer} />}/>
               <Route path="/mintedNFTs" element={<MintedNfts signer={signer} />} />
