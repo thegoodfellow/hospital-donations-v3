@@ -7,7 +7,7 @@ import ClaimNFT from "./scenes/claimNFT";
 import FAQ from "./scenes/faq";
 //NAVBARS
 import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
+import Sidebar from "./scenes/global/Sidebar";//
 
 //GRAPHIC
 import { CssBaseline, ThemeProvider } from "@mui/material";
