@@ -23,6 +23,7 @@ const DonationForm = (signer) => {
       const _surname = values.lastName;
       const _amount = values.amount;
       const tx = donate(_signer, _name, _surname, _amount);
+      console.log("trnsaction:" + tx);
     }
   };
 

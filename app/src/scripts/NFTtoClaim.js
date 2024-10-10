@@ -1,26 +1,29 @@
-const ethers = require('ethers');
 const getContract = require("./getContract");
 
 async function NFTtoCLaim(signer) {
+  console.log("NFT to claim:")
 
     try{
         if(signer === undefined)//if no wallet is connected
-          return "NO TOKEN";
+          {
+            console.log("signer undefined");
+            return "NO TOKEN";
+          }
         else{
+          console.log("else");
           const baseContract = await getContract();
+          console.log(" signer.address " + signer.address)
+          const donation = await baseContract.donations(signer.address);
           const contract = await baseContract.connect(signer);
-          const donation = await contract.donations(signer.address);
 
           const BRONZE_THRESHOLD = await contract.BRONZE_THRESHOLD();
           const SILVER_THRESHOLD = await contract.SILVER_THRESHOLD();
           const GOLD_THRESHOLD = await contract.GOLD_THRESHOLD();
 
-          const ret = {
-              "donation": donation, "BRONZE_THRESHOLD": BRONZE_THRESHOLD, 
-              "SILVER_THRESHOLD": SILVER_THRESHOLD, "GOLD_THRESHOLD": GOLD_THRESHOLD
-          };
+
 
           function whichToken(){
+            console.log("nft to claim - which token func");
               let which = "NO TOKEN";
               if(donation.amount>0){
                 if(donation.amount <= BRONZE_THRESHOLD){
@@ -40,6 +43,7 @@ async function NFTtoCLaim(signer) {
                   }
                 }
               }
+              console.log("which:" + which);
               return which;
             }
 

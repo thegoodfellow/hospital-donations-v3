@@ -1,4 +1,3 @@
-const ethers = require('ethers');
 const getContractBySigner = require("./getContractBySigner");
 
 async function whichBadge(signer) {

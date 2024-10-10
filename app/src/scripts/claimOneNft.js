@@ -1,4 +1,3 @@
-const ethers = require('ethers');
 const getContract = require("./getContract");
 
 async function claimOneNtf(signer) {

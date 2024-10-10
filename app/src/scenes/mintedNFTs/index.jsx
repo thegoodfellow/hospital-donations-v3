@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 //BLOCKCHAIN
 import minted from "../../scripts/minted";//it check how many NFTs have been minted per type and the maxim supplies as well
 
-const MintedNfts = (signer) => {
+const MintedNfts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -42,13 +42,11 @@ const MintedNfts = (signer) => {
 
   useEffect(() => {
     async function getData(){
-      if(signer.signer !== undefined){
-        const d = await minted(signer);
+        const d = await minted();
         setData(d);
-      }
     }
     getData();
-  }, []);
+  });
 
   return (
     <Box m="20px">

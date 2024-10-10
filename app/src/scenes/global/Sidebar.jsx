@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar"; 
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined';
 import whichBadge from "../../scripts/whichBadge";
 
 
+// Item component for sidebar menu items
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,39 +38,37 @@ const Sidebar = (props) => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [imgSrc, setImgSrc] = useState("NO TOKEN");
+  const [imgSrc, setImgSrc] = useState("../../../assets/no_badge_of_honour.png");
 
-  async function badgeSource(){
-    console.log("badgeSource");
-    console.log(props.signer);
-    const _signer = props.signer;
+  // Memoize the badgeSource function
+  const badgeSource = useCallback(async () => {
+    console.log("badgeSource triggered");
+    console.log("Signer:", props.signer);
+    const sig = await props.signer;
+    const whichNFT = await whichBadge(sig);
+    console.log("Account:", props.account);
+    console.log("Which NFT:", whichNFT);
     
-    const whichNFT = await whichBadge(props.signer);
-    console.log("props.account: " + props.account);
-    console.log("whichNFT: " + whichNFT);
     let ret = `../../../assets/no_badge_of_honour.png`;
-    if(whichNFT === "NO TOKEN")
-       ret = "../../../assets/no_badge_of_honour.png";
-    if(whichNFT === "BRONZE")
-    ret = `../../assets/bronze_badge_of_honour.png`;
-    if(whichNFT === "SILVER")
-      ret = `../../assets/silver_badge_of_honour.png`;
-    if(whichNFT === "GOLD")
-      ret = `../../assets/gold_badge_of_honour.png`;
-    if(whichNFT === "PLATINUM")
-      ret = `../../assets/platinum_badge_of_honour.png`;
-    console.log("ret: " + ret);
+    if (whichNFT === "BRONZE") ret = `../../assets/bronze_badge_of_honour.png`;
+    if (whichNFT === "SILVER") ret = `../../assets/silver_badge_of_honour.png`;
+    if (whichNFT === "GOLD") ret = `../../assets/gold_badge_of_honour.png`;
+    if (whichNFT === "PLATINUM") ret = `../../assets/platinum_badge_of_honour.png`;
+
+    console.log("Badge image URL:", ret);
     return ret;
-  };
+  }, [props.signer, props.account]); // Only `signer` is needed here
 
-  useEffect( () => {
-    async function getData(){
-      const src = await badgeSource();
-      setImgSrc(src);
+  // Trigger badge update when `signer` or `account` changes
+  useEffect(() => {
+    if (props.signer) {
+      async function updateBadge() {
+        const src = await badgeSource();
+        setImgSrc(src);
+      }
+      updateBadge();
     }
-    getData();
-  }, [props.signer]);
-
+  }, [props.signer, props.account, badgeSource]); // Directly depend on `signer` and `account`
 
   return (
     <Box
@@ -93,7 +92,6 @@ const Sidebar = (props) => {
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -158,7 +156,6 @@ const Sidebar = (props) => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -187,7 +184,6 @@ const Sidebar = (props) => {
               selected={selected}
               setSelected={setSelected}
             />
-
             <Typography
               variant="h6"
               color={colors.grey[300]}
@@ -209,7 +205,6 @@ const Sidebar = (props) => {
               selected={selected}
               setSelected={setSelected}
             />
-
           </Box>
         </Menu>
       </ProSidebar>

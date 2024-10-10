@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 
 //const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-const Donations = (signer) => {
+const Donations = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -24,7 +24,10 @@ const Donations = (signer) => {
   useEffect( () => {
     async function getDonations(){
       //const {data: newDonations} = await axios.get(`${serverUrl}/donations`); //modify
-      const newDonations = await readDonations(signer);
+      //console.log("donations - useEffect");
+      //const sig = await props.signer;
+      //console.log("signer: " + JSON.stringify(sig));
+      const newDonations = await readDonations();
       if(newDonations.length !== donations.length){
         setDonations(newDonations);
       }

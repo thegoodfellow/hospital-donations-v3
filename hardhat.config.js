@@ -17,7 +17,6 @@ module.exports = {
     hardhat: {},
     sepolia: {
       url: process.env.NETWORK_URL,
-      accounts: [process.env.DEPLOYER_PRIVATE_KEY]
     }
   },
 };
