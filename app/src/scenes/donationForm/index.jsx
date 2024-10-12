@@ -1,29 +1,82 @@
-//COMPONENTS 
 import Header from "../../components/Header";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 //BLOCKCHAIN
-import donate from "../../scripts/donate";//it calls the method donate of the smart contract
+import donate from "../../scripts/donate"; // it calls the method donate of the smart contract
+import { ethers } from "ethers";
 
 //FORM
 import { Formik } from "formik";
-import * as yup from "yup"; //Yup is a schema builder for runtime value parsing and validation
+import * as yup from "yup"; // Yup is a schema builder for runtime value parsing and validation
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const DonationForm = (signer) => {
+const DonationForm = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const [_signer, _setSigner] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
+  const [loading, setLoading] = useState(<div></div>);
 
-  
-  const handleFormSubmit = (values) => {//it gets the values from the fomr and feed into the donate function
-    if(Object.keys(signer).length === 0){//to-do make sure this is a good way of checking for empty objects
-    }else{
-      //signer = { "signer": {"provider": {}, "address": "0x...." } }
-      const _signer = signer.signer;
-      const _name = values.firstName;
-      const _surname = values.lastName;
-      const _amount = values.amount;
-      const tx = donate(_signer, _name, _surname, _amount);
-      console.log("trnsaction:" + tx);
+  useEffect(() => {
+    _setSigner(props.signer);
+
+    // Function to handle account change
+    const handleAccountsChanged = async (accounts) => {
+      if (accounts.length === 0) {
+        console.log("Please connect to MetaMask.");
+        setCurrentAccount(null);
+      } else if (accounts[0] !== currentAccount) {
+        setCurrentAccount(accounts[0]);
+        const _provider = new ethers.BrowserProvider(window.ethereum);
+        const sig = await _provider.getSigner();
+        _setSigner(sig);
+        console.log("Account changed to:", accounts[0]);
+      }
+    };
+
+    // Check if MetaMask is installed
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+      // Cleanup the event listener when component unmounts
+      return () => {
+        window.ethereum.removeListener(
+          "accountsChanged",
+          handleAccountsChanged
+        );
+      };
+    } else {
+      console.log("MetaMask is not installed!");
+    }
+  }, [currentAccount, props.signer]); // Effect runs when `currentAccount` changes
+
+  const handleFormSubmit = async (values) => {
+    setLoading("Waiting...");
+    setErrorMessage("");
+
+    try {
+      if (!_signer) {
+        setErrorMessage("No wallet connected. Please connect your wallet.");
+      } else {
+        const _name = values.firstName;
+        const _surname = values.lastName;
+        const _amount = values.amount;
+        console.log("signer passed to donate script: " + _signer);
+        const tx = await donate(_signer, _name, _surname, _amount);
+        setLoading("");
+        if (tx) {
+          console.log("tx: " + JSON.stringify(tx));
+          props.onDonationSuccess(tx);
+        } else {
+          setErrorMessage("Donation failed. Please try again.");
+          setLoading("");
+        }
+      }
+    } catch (error) {
+      // Show the actual error message returned by the `donate` function
+      setErrorMessage(error.message || "An error occurred during the donation.");
+      setLoading("");
     }
   };
 
@@ -31,6 +84,15 @@ const DonationForm = (signer) => {
     <Box m="20px">
       <Header title="GIVE ETH" subtitle="MAKE THE GREATEST DIFFERENCE" />
 
+      {/* Display the error message at the top of the form */}
+      {errorMessage && (
+        <Typography color="error" variant="body1" mb="20px">
+          {errorMessage}
+        </Typography>
+      )}
+      <Typography color="error" variant="body1" mb="20px">
+          {loading}
+        </Typography>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -145,6 +207,7 @@ const DonationForm = (signer) => {
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
+
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
                 DONATE
@@ -159,9 +222,8 @@ const DonationForm = (signer) => {
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-const amountRegExp = /^\d{1,8}(?:\.\d{0,18})?$/; //decimals are set based on the available protocol precision 
-                                                //the 8 digits before the dot seems to be even to many but u never know
-                                                //we use the dot convention no comma
+const amountRegExp = /^\d{1,8}(?:\.\d{0,18})?$/;
+
 const checkoutSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
@@ -173,10 +235,11 @@ const checkoutSchema = yup.object().shape({
   address1: yup.string().required("required"),
   address2: yup.string().required("required"),
   amount: yup
-  .string() //parseEther expects a string
-  .matches(amountRegExp, "amount is not valid")
-  .required("required"),
+    .string()
+    .matches(amountRegExp, "Amount is not valid")
+    .required("required"),
 });
+
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -188,3 +251,4 @@ const initialValues = {
 };
 
 export default DonationForm;
+

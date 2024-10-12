@@ -1,118 +1,131 @@
-//GRPHIC
+// GRAPHIC
 import { Box, Typography, useTheme, Button } from "@mui/material";
 import { tokens } from "../../theme";
 
-//COMPONENTS
+// COMPONENTS
 import Header from "../../components/Header";
 
-//SCENE VARIABLES 
+// SCENE VARIABLES 
 import { useEffect, useState } from 'react';
 
-//BLOCKCHAIN
-import NFTtoCLaim from "../../scripts/NFTtoClaim"; //it checks if there is any NFT and which type to claim for the wallet address connected 
-import claimOneNft from "../../scripts/claimOneNft"; //it calls the method claimNFT of the smart contract
-
+// BLOCKCHAIN
+import NFTtoCLaim from "../../scripts/NFTtoClaim"; // It checks if there is any NFT and which type to claim for the wallet address connected 
+import claimOneNft from "../../scripts/claimOneNft"; // It calls the method claimNFT of the smart contract
+import { ethers } from "ethers";
 
 const ClaimNFT = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { signer } = props;
-  console.log("singer " + signer);
+  const [whichSource, setWhichSource] = useState(`../../assets/no_badge_of_honour.png`);
+  const [whichText, setWhichText] = useState("You are not entitled to any NFT");
+  const [whichButton, setWhichcButton] = useState(<div></div>);
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const [_signer, _setSigner] = useState(null);
 
-  const [whichNFT, setWhichNFT] = useState("NO TOKEN");
+  const handleFormSubmit = async () => {
+    setWhichText("Waiting....");
+    if (await claimOneNft(_signer) !== null) {
+      setWhichText("You are not entitled to any NFT");
+      setWhichSource("../../assets/no_badge_of_honour.png");
+      setWhichcButton(<div></div>);
+    }
+  };
 
   useEffect(() => {
-    console.log("app/src/scenes/claimNFT - useEffect");
+    
+    _setSigner(props.signer);
+    
   
     async function getData() {
-      //console.log("getData:");
-      //console.log(JSON.stringify(props));
-      //const signer = props.signer;
-      //console.log("signer: " + signer);
-      //console.log("JSON.stringify(signer): " + JSON.stringify(signer));
-      
-      if (signer) {
-        const data = await NFTtoCLaim(signer);
-        setWhichNFT(data); // The state will update asynchronously
+
+  
+      // Fetch the NFT once and store it in a variable
+      const nftToClaim = await NFTtoCLaim(_signer);
+     
+  
+      // Check if an NFT is available to claim
+      if (nftToClaim !== "NO TOKEN" && nftToClaim !== null) {
+        console.log("if");
+        setWhichText("You are entitled to a " + nftToClaim + " NFT");
+        setWhichSource(`../../assets/${nftToClaim.toLowerCase()}_badge_of_honour.png`);
+        setWhichcButton(
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            onClick={handleFormSubmit}
+            style={{
+              maxWidth: '100px',
+              maxHeight: '100px',
+              minWidth: '40%',
+              minHeight: '60px',
+            }}
+          >
+            <Typography
+              align="center"
+              variant="h1"
+              color={colors.grey[900]}
+              fontWeight="bold"
+              mb="5px"
+            >
+              CLAIM
+            </Typography>
+          </Button>
+        );
+      } else {
+        // If no NFT is available to claim
+        setWhichText("You are not entitled to any NFT");
+        setWhichSource("../../assets/no_badge_of_honour.png");
+        setWhichcButton(<div></div>);
       }
     }
   
-    // Fetch initial data
-    getData();
+    // Only call getData if signer is set
+    if (_signer) {
+      getData();
+    }
   
-    // MetaMask event listeners
+    // Function to handle account change
+    const handleAccountsChanged = async (accounts) => {
+      if (accounts.length === 0) {
+        console.log("Please connect to MetaMask.");
+        setCurrentAccount(null);
+      } else if (accounts[0] !== currentAccount) {
+        setCurrentAccount(accounts[0]);
+        const _provider = new ethers.BrowserProvider(window.ethereum);
+        const sig = await _provider.getSigner();
+        _setSigner(sig);
+        console.log("Account changed to:", accounts[0]);
+      }
+    };
+  
+    // Check if MetaMask is installed
     if (window.ethereum) {
-      const handleAccountsChanged = (accounts) => {
-        console.log("Accounts changed:", accounts);
-        if (accounts.length > 0) {
-          getData();  // Refetch data when accounts change
-        } else {
-          setWhichNFT("NO TOKEN"); // Reset if no account is connected
-        }
-      };
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
   
-      const handleChainChanged = (chainId) => {
-        console.log("Chain changed:", chainId);
-        getData(); // Refetch data when network changes
-      };
-  
-      // Listen for MetaMask events
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('chainChanged', handleChainChanged);
-  
-      // Cleanup event listeners when component unmounts
+      // Cleanup the event listener when component unmounts
       return () => {
-        if (window.ethereum.removeListener) {
-          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-          window.ethereum.removeListener('chainChanged', handleChainChanged);
-        }
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
       };
+    } else {
+      console.log("MetaMask is not installed!");
     }
-  }, [signer]);  // Use props.signer as the dependency
-
-
-  const whichText = () => {
-    if (whichNFT === "NO TOKEN") {
-      return "You are not entitled to any NFT";
-    }
-    return "You are entitled to a " + whichNFT + " NFT";
-  };
-
-  const whichSource = () => {
-    if (whichNFT === "NO TOKEN")
-      return `../../assets/no_badge_of_honour.png`;
-    if (whichNFT === "BRONZE")
-      return `../../assets/bronze_badge_of_honour.png`;
-    if (whichNFT === "SILVER")
-      return `../../assets/silver_badge_of_honour.png`;
-    if (whichNFT === "GOLD")
-      return `../../assets/gold_badge_of_honour.png`;
-    if (whichNFT === "PLATINUM")
-      return `../../assets/platinum_badge_of_honour.png`;
-  };
-
-  const whichButton = () => {
-    return whichNFT === "NO TOKEN" ? <div></div> 
-      : <Button type="submit" color="secondary" variant="contained" onClick={handleFormSubmit} 
-          style={{ maxWidth: '100px', maxHeight: '100px', minWidth: '40%', minHeight: '60px' }}>
-          <Typography align="center" variant="h1" color={colors.grey[900]} fontWeight="bold" mb="5px">
-            CLAIM 
-          </Typography> 
-        </Button>;
-  };
-
-  const handleFormSubmit = async () => {
-    return await claimOneNft(props.signer);
-  };
-
+  }, [_signer, currentAccount, props.signer]); // Ensure dependencies are properly set
+  
   return (
     <Box m="20px">
       <Header title="Claim NFT" subtitle="Carve your name into stone" />
       <Box display="grid" alignItems="center" mt="20px" justifyContent="center" minHeight="50vh">
-        <Typography align="center" variant="h2" color={colors.grey[100]} fontWeight="bold" mb="5px">{whichText()}</Typography>
-        <Box align="center" mb="15px"><img src={whichSource()} alt="NFT to be claimed" /></Box>
-        <Box align="center" mb="5px">{whichButton()}</Box>
+        <Typography align="center" variant="h2" color={colors.grey[100]} fontWeight="bold" mb="5px">
+          {whichText}
+        </Typography>
+        <Box align="center" mb="15px">
+          <img src={whichSource} alt="Badge to be claimed" />
+        </Box>
+        <Box align="center" mb="5px">
+          {whichButton}
+        </Box>
       </Box>
     </Box>
   );

@@ -27,8 +27,14 @@ function App() {
   const [nickname, setNickname] = useState(null);
   const [signer, setSigner] = useState();
 
+  const [donationTx, setDonationTx] = useState(null);
+
+  const handleDonationSuccess = (tx) => {
+    setDonationTx(tx);
+  };
+
   useEffect(() => {
-    console.log("app - useEffect");
+    
     async function getAccounts() {
       let signer = null;
       let nickname = null;
@@ -88,8 +94,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/donations" element={<Donations />} />
-              <Route path="/donationForm" element={<DonationForm signer={signer} />} />
-              <Route path="/claimNFT" element={<ClaimNFT signer={signer} />} />
+              <Route path="/donationForm" element={<DonationForm signer={signer} onDonationSuccess={handleDonationSuccess} />} />
+              <Route path="/claimNFT" element={<ClaimNFT signer={signer} donationTx={donationTx} />} />
               <Route path="/mintedNFTs" element={<MintedNfts />} />
               <Route path="/faq" element={<FAQ />} />
             </Routes>

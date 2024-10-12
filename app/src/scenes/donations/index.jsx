@@ -1,19 +1,10 @@
-//COMPONENTS
 import Header from "../../components/Header";
-
-//GRAPHIC
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-
-//BLOCKCHAIN
-import readDonations from "../../scripts/donations";
-
-//SCENE VARIABLES
 import { useEffect, useState } from 'react';
-
-
-//const serverUrl = process.env.REACT_APP_SERVER_URL;
+import getContract from "../../scripts/getContract"; // Updated to use getContract from your script
+import { formatUnits } from 'ethers'; // ethers v6 utility to format amounts
 
 const Donations = () => {
   const theme = useTheme();
@@ -21,71 +12,55 @@ const Donations = () => {
 
   const [donations, setDonations] = useState([]);
 
-  useEffect( () => {
-    async function getDonations(){
-      //const {data: newDonations} = await axios.get(`${serverUrl}/donations`); //modify
-      //console.log("donations - useEffect");
-      //const sig = await props.signer;
-      //console.log("signer: " + JSON.stringify(sig));
-      const newDonations = await readDonations();
-      if(newDonations.length !== donations.length){
-        setDonations(newDonations);
-      }
-    }
-    getDonations();
-    console.log("donations");
-    console.log(JSON.stringify(donations));
-  }, [donations]);
+  useEffect(() => {
+    const loadDonations = async () => {
+      const contract = await getContract(); // Get the contract instance
 
-  function getRowId(row) {
-    return row.transactionHash;
-  }
+      // Fetch existing donations from blockchain (optional, if you want historical data)
+      const filter = contract.getEvent("DonationReceived");
+      const events = await contract.queryFilter(filter);
+      const donationList = events.map((event) => ({
+        id: event.args.donor + event.args.amount.toString(), // Unique ID based on donor and amount
+        donor: event.args.donor,
+        name: event.args.name,
+        surname: event.args.surname,
+        amount: formatUnits(event.args.amount, "ether"), // Format amount in ether
+      }));
 
+      setDonations(donationList);
+    };
 
-  const columns = [
-    { field: "transactionHash", 
-    headerName: "Transaction Hash",
-    minWidth: 405, 
-  },
-   /* {
-      field: "nickname",
-      headerName: "Wallet Nickname",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },*/
-    {
-      field: "donor",
-      headerName: "Wallet Address",
-      cellClassName: "name-column--cell",
-      minWidth: 275,
-    },
-    {
-      field: "name",
-      headerName: "Name",
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "surname",
-      headerName: "Surname",
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "amount",
-      headerName: "Amount (ETH)",
-      headerAlign: "left",
-      align: "left",
-      minWidth:150,
-    },
-   /* {
-      field: "timestamp",
-      headerName: "Date & Time",
-      flex: 1,
-    }*/
-  ];
+    const listenForNewDonations = async () => {
+      const contract = await getContract(); // Get the contract instance
+
+      // Listen for the DonationReceived event
+      contract.on("DonationReceived", (donor, name, surname, amount) => {
+        const newDonation = {
+          id: donor + amount.toString(),
+          donor,
+          name,
+          surname,
+          amount: formatUnits(amount, "ether"), // Format amount in ether
+        };
+
+        setDonations((prevDonations) => [...prevDonations, newDonation]);
+      });
+    };
+
+    // Load initial donations and start listening for new ones
+    loadDonations();
+    listenForNewDonations();
+
+    // Clean up the event listener when the component unmounts
+    return async () => {
+      const contract = await getContract();
+      contract.off("DonationReceived"); // ethers v6: Remove listener with off()
+    };
+  }, []);
 
   return (
     <Box m="20px">
-      <Header title="DONATIONS" subtitle="How much our donors have given to the cause" />
+      <Header title="Donations" subtitle="Track all donations in real-time" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -95,9 +70,6 @@ const Donations = () => {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[700],
@@ -115,14 +87,19 @@ const Donations = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection getRowId={getRowId} rows={donations} columns={columns}   autosizeOptions={{
-    columns: ['name', 'surname','donor', 'amount'],
-    includeOutliers: true,
-    includeHeaders: true,
-  }} />
+        <DataGrid
+          rows={donations}
+          columns={[
+            { field: "donor", headerName: "Donor Address", flex: 1 },
+            { field: "name", headerName: "Name", flex: 1 },
+            { field: "surname", headerName: "Surname", flex: 1 },
+            { field: "amount", headerName: "Amount (ETH)", flex: 1 },
+          ]}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+        />
       </Box>
     </Box>
-    
   );
 };
 
