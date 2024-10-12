@@ -7,7 +7,6 @@ const abiJson = require("../contractAbi.json");
 async function getContract() {
   const address = addressJson.address;
   const abi = abiJson.abi;
-  console.log("getDonations - network url: " + process.env.REACT_APP_NETWORK_URL);
   const provider = new ethers.JsonRpcProvider(process.env.REACT_APP_NETWORK_URL); //v5 ethers.providers.JsonRpcProvider() --> ethers.JsonRpcProvider()
   const HospitalDonationV6 = new ethers.Contract(address, abi, provider);
   return HospitalDonationV6;

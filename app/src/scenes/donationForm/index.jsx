@@ -16,7 +16,7 @@ const DonationForm = (props) => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [_signer, _setSigner] = useState(null);
   const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-  const [loading, setLoading] = useState(<div></div>);
+  const [loading, setLoading] = useState("");
 
   useEffect(() => {
     _setSigner(props.signer);
@@ -24,14 +24,14 @@ const DonationForm = (props) => {
     // Function to handle account change
     const handleAccountsChanged = async (accounts) => {
       if (accounts.length === 0) {
-        console.log("Please connect to MetaMask.");
+        
         setCurrentAccount(null);
       } else if (accounts[0] !== currentAccount) {
         setCurrentAccount(accounts[0]);
         const _provider = new ethers.BrowserProvider(window.ethereum);
         const sig = await _provider.getSigner();
         _setSigner(sig);
-        console.log("Account changed to:", accounts[0]);
+        
       }
     };
 
@@ -47,7 +47,7 @@ const DonationForm = (props) => {
         );
       };
     } else {
-      console.log("MetaMask is not installed!");
+      
     }
   }, [currentAccount, props.signer]); // Effect runs when `currentAccount` changes
 
@@ -62,11 +62,11 @@ const DonationForm = (props) => {
         const _name = values.firstName;
         const _surname = values.lastName;
         const _amount = values.amount;
-        console.log("signer passed to donate script: " + _signer);
+        
         const tx = await donate(_signer, _name, _surname, _amount);
         setLoading("");
         if (tx) {
-          console.log("tx: " + JSON.stringify(tx));
+          
           props.onDonationSuccess(tx);
         } else {
           setErrorMessage("Donation failed. Please try again.");
@@ -81,8 +81,10 @@ const DonationForm = (props) => {
   };
 
   return (
+   
     <Box m="20px">
       <Header title="GIVE ETH" subtitle="MAKE THE GREATEST DIFFERENCE" />
+
 
       {/* Display the error message at the top of the form */}
       {errorMessage && (
@@ -93,6 +95,7 @@ const DonationForm = (props) => {
       <Typography color="error" variant="body1" mb="20px">
           {loading}
         </Typography>
+        
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}

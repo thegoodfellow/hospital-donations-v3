@@ -20,6 +20,8 @@ import { Routes, Route } from "react-router-dom";
 // BLOCKCHAIN
 import { ethers } from 'ethers';
 
+
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -27,32 +29,34 @@ function App() {
   const [nickname, setNickname] = useState(null);
   const [signer, setSigner] = useState();
 
+  async function getAccounts() {
+    let signer = null;
+    let nickname = null;
+    let _provider;
+
+    if (window.ethereum == null) {
+      // If MetaMask is not installed, we use the default provider (read-only access)
+      _provider = ethers.getDefaultProvider();
+    } else {
+      // Connect to the MetaMask EIP-1193 object
+      _provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await _provider.getSigner();
+      const accounts = await _provider.send('eth_requestAccounts', []);
+      setAccount(accounts[0]);
+      setSigner(signer);
+      setNickname(nickname);
+    }
+  }
+
   const [donationTx, setDonationTx] = useState(null);
 
   const handleDonationSuccess = (tx) => {
     setDonationTx(tx);
   };
 
-  useEffect(() => {
-    
-    async function getAccounts() {
-      let signer = null;
-      let nickname = null;
-      let _provider;
 
-      if (window.ethereum == null) {
-        // If MetaMask is not installed, we use the default provider (read-only access)
-        _provider = ethers.getDefaultProvider();
-      } else {
-        // Connect to the MetaMask EIP-1193 object
-        _provider = new ethers.BrowserProvider(window.ethereum);
-        signer = await _provider.getSigner();
-        const accounts = await _provider.send('eth_requestAccounts', []);
-        setAccount(accounts[0]);
-        setSigner(signer);
-        setNickname(nickname);
-      }
-    }
+  useEffect(() => {
+
 
     getAccounts();
 

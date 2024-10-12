@@ -36,7 +36,6 @@ const MintedNfts = () => {
       const contract = await getContract(); // Get the contract instance
 
       contract.on("NFTClaimed", (donor, tokenId, ipfsHash) => {
-        console.log("New NFT claimed by:", donor);
 
         // Update the state by increasing the minted count for the relevant type (assuming tokenId determines the type)
         setData((prevData) =>
@@ -72,7 +71,6 @@ const MintedNfts = () => {
   if (loading) {
     return <Box m="20px">Loading Minted NFTs...</Box>;
   }
-  console.log("data: " + JSON.stringify(data));
 
   return (
     <Box m="20px">

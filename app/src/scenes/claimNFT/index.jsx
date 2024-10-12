@@ -46,7 +46,7 @@ const ClaimNFT = (props) => {
   
       // Check if an NFT is available to claim
       if (nftToClaim !== "NO TOKEN" && nftToClaim !== null) {
-        console.log("if");
+        
         setWhichText("You are entitled to a " + nftToClaim + " NFT");
         setWhichSource(`../../assets/${nftToClaim.toLowerCase()}_badge_of_honour.png`);
         setWhichcButton(
@@ -89,14 +89,14 @@ const ClaimNFT = (props) => {
     // Function to handle account change
     const handleAccountsChanged = async (accounts) => {
       if (accounts.length === 0) {
-        console.log("Please connect to MetaMask.");
+        
         setCurrentAccount(null);
       } else if (accounts[0] !== currentAccount) {
         setCurrentAccount(accounts[0]);
         const _provider = new ethers.BrowserProvider(window.ethereum);
         const sig = await _provider.getSigner();
         _setSigner(sig);
-        console.log("Account changed to:", accounts[0]);
+        
       }
     };
   
@@ -109,7 +109,7 @@ const ClaimNFT = (props) => {
         window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
       };
     } else {
-      console.log("MetaMask is not installed!");
+      
     }
   }, [_signer, currentAccount, props.signer]); // Ensure dependencies are properly set
   

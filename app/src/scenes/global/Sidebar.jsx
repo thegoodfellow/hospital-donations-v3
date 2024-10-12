@@ -42,12 +42,11 @@ const Sidebar = (props) => {
 
   // Memoize the badgeSource function
   const badgeSource = useCallback(async () => {
-    console.log("badgeSource triggered");
-    console.log("Signer:", props.signer);
+    
+    
     const sig = await props.signer;
     const whichNFT = await whichBadge(sig);
-    console.log("Account:", props.account);
-    console.log("Which NFT:", whichNFT);
+
     
     let ret = `../../../assets/no_badge_of_honour.png`;
     if (whichNFT === "BRONZE") ret = `../../assets/bronze_badge_of_honour.png`;
@@ -55,7 +54,6 @@ const Sidebar = (props) => {
     if (whichNFT === "GOLD") ret = `../../assets/gold_badge_of_honour.png`;
     if (whichNFT === "PLATINUM") ret = `../../assets/platinum_badge_of_honour.png`;
 
-    console.log("Badge image URL:", ret);
     return ret;
   }, [props.signer, props.account]); // Only `signer` is needed here
 
